@@ -1,6 +1,10 @@
 package com.ehome.sourch.utils;
 
+import ch.ethz.ssh2.Connection;
+import com.ehome.sourch.pojo.Node;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -9,11 +13,22 @@ import java.util.Date;
  */
 public class GetAllFileUtil {
 
-    private static String path;
+    private Node node = new Node();
+    private String path = "";
+    public GetAllFileUtil(Node node,String path){
+        this.node = node;
+        this.path =path;
+    }
+    private NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
 
-    public static String[] getFile() {
+    public  String[] getFile(String path) {
 
-        path = "";
+        //获取链接
+        try {
+            Connection conn = nodeConnectUtil.getConnection(node,path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // 获得指定文件对象
         File file = new File(path);
         // 获得该文件夹内的所有文件

@@ -1,5 +1,7 @@
 package com.ehome.sourch.utils;
 
+import com.ehome.sourch.pojo.Node;
+
 /**
  * 得到所需的日志文件名
  * Created by wzw on 2017/9/27.
@@ -11,10 +13,10 @@ public class GetNeedFileUtli {
      * 得到最近的日志文件
      * @return
      */
-    public String getNeeedFileName(){//取出最近的日志文件名
-        getAllFileUtil = new GetAllFileUtil();
+    public String getNeeedFileName(Node node,String path){//取出最近的日志文件名
+        getAllFileUtil = new GetAllFileUtil(node,path);
 
-        String[] filenames = getAllFileUtil.getFile();//获取指定目录下的所有文件
+        String[] filenames = getAllFileUtil.getFile(path);//获取指定目录下的所有文件
         String[] filename = new String[0];//取每个文件名称切割后的字符串数组
         String[] strs = new String[0];//取每个文件名中的日期
         String str=filenames[0];//取日期最大的文件名
@@ -34,10 +36,10 @@ public class GetNeedFileUtli {
         }
        return str;
     }
-    public String getNeeedFileName(String date1){//取出指定日期的文件名
-        getAllFileUtil = new GetAllFileUtil();
+    public String getNeeedFileName(String date1,Node node,String path){//取出指定日期的文件名
+        getAllFileUtil = new GetAllFileUtil(node,path);
 
-        String[] filenames = getAllFileUtil.getFile();//获取指定目录下的所有文件
+        String[] filenames = getAllFileUtil.getFile(path);//获取指定目录下的所有文件
         String[] filename = new String[0];//取每个文件名称切割后的字符串数组
         String[] strs = new String[0];//取每个文件名中的日期
         String str=null;//取日期最大的文件名
@@ -51,10 +53,10 @@ public class GetNeedFileUtli {
         return str;
     }
 
-    public String[] getNeeedFileName(String date1,String data2) {//date1至date2之间的文件名
-        getAllFileUtil = new GetAllFileUtil();
+    public String[] getNeeedFileName(String date1,String data2,Node node,String path) {//date1至date2之间的文件名
+        getAllFileUtil = new GetAllFileUtil(node,path);
 
-        String[] filenames = getAllFileUtil.getFile();//获取指定目录下的所有文件
+        String[] filenames = getAllFileUtil.getFile(path);//获取指定目录下的所有文件
         String[] filename = new String[0];//取每个文件名称切割后的字符串数组
         String[] strs = new String[0];//取每个文件名中的日期
         String[] str = new String[0];//取日期最大的文件名
