@@ -10,20 +10,7 @@ import java.io.IOException;
  */
 class GetNeedFileUtliTest {
     @Test
-    void getNeeedFileName() {
-        String path="";
-        Node node = new Node();
-        node.setIp("192.168.134.143");
-        node.setPort(22);
-        node.setUsername("root");
-        node.setPassword("wang1509");
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        try {
-            nodeConnectUtil.getConnection(node,path);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void getNeeedFileNameTest() {
 
     }
 

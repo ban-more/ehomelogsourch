@@ -1,6 +1,10 @@
 package com.ehome.sourch.logService;
 
+import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.SCPClient;
 import com.ehome.sourch.pojo.Log;
+import com.ehome.sourch.pojo.Node;
+import com.ehome.sourch.utils.GetIOStream;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -11,30 +15,38 @@ import java.util.*;
  */
 public class LogServiceImpl {
 
-    private Log log;
+    private Node node;
 
-    public Log findLog(String keyword, File file) throws IOException {//在日志文件中查找包含关键字的的简略信息
+    public List<Log> findLog(Node node, String file,String keyword) throws IOException {//在日志文件中查找包含关键字的的简略信息
 
+        GetIOStream getIOStream = new GetIOStream();
+        BufferedReader br = getIOStream.getInputStream(node ,file);
 
-        log = new Log();
-      
+        System.out.println("************" + br);
+
+        List<Log> logs = new ArrayList<Log>();
         Map<Integer,String> map = null;
-        
-        LineNumberReader lineReader = new LineNumberReader(new FileReader(file));
+
+//        LineNumberReader lineReader = new LineNumberReader(new InputStreamReader(stdout));
+        int linenum = 1;
         String readLine = null;
-        while ((readLine = lineReader.readLine()) != null) {
+        while ((readLine = br.readLine()) != null) {
             //判断关键字
+            Log log = new Log();
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@" + readLine);
+
             if (readLine.indexOf(keyword) != -1) {
-                
-                map.put(lineReader.getLineNumber(),readLine);
+
+                map.put(linenum,readLine);
             }
-
+            log.setMessages(map);
+            log.setKeyword(keyword);
+            logs.add(log);
+            linenum++;
         }
-        log.setKeyword(keyword);
-        log.setMessages(map);
-        log.setNodename((InetAddress.getLocalHost()).getHostName());
 
-        return log;
+
+        return logs;
     }
     public List<Log> getDetaliLogMessige(Map messages, String file, String keyword) throws IOException {//获取日志中所有的此类型的详细信息
 

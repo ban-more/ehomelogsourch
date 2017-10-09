@@ -11,7 +11,7 @@ import java.io.*;
  */
 public class NodeConnectUtil {
 
-    public Connection getConnection(Node node, String path) throws IOException {
+    public Connection getConnection(Node node) throws IOException {
         Connection conn = new Connection(node.getIp(), node.getPort());
         Session ssh = null;
         //连接到主机
@@ -36,7 +36,7 @@ public class NodeConnectUtil {
 ////                folder.mkdir();
 ////            }
 
-        }
+         }
 //        SCPClient clt = conn.createSCPClient();
 //        ssh = conn.openSession();
 //        ssh.execCommand("find " + path + "-name '*.txt'");
