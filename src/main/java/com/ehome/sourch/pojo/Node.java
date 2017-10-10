@@ -9,6 +9,7 @@ public class Node {
     private String username;
     private String password;
 
+
     public String getIp() {
         return ip;
     }

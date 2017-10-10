@@ -58,7 +58,7 @@ public class GetNeedFileUtli {
         String str=null;//取符合日期的文件名
         for(int i=0; i<filenames.length; i++){
             String[] filename = filenames[i].split(String.valueOf('_'));//取每个文件名称切割后的字符串数组
-            strs[i] = filename[1] + filename[2].split(String.valueOf('.'));
+            strs[i] = filename[1] + filename[2].split(".out");
             if(strs[i].equals(date1)) {
                 str = filenames[i];
             }
@@ -75,7 +75,7 @@ public class GetNeedFileUtli {
         int j =0;
         for (int i = 0; i < filenames.length; i++) {
             String[] filename = filenames[i].split(String.valueOf('_'));//取每个文件名称切割后的字符串数组
-            strs[i] = filename[1] + filename[2].split(String.valueOf('.'));
+            strs[i] = filename[1] + filename[2].split(".out");
             if (Integer.valueOf(strs[i]) > Integer.valueOf(date1)&&Integer.valueOf(strs[i]) < Integer.valueOf(data2)) {
                 str[j] = filenames[i];
                 j++;
