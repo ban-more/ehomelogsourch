@@ -22,12 +22,11 @@ public class GetAllFileUtil {
     }
     private NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
 
-    public  String[] getFile() {
+    public  String[] getFile(Connection conn) {
             Session ssh = null;
         String[] filenames = new String[30];
         //获取链接
         try {
-            Connection conn = nodeConnectUtil.getConnection(node);
 //            SCPClient client = new SCPClient(conn);
 //            client.get("/usr/local/", localTargetDirectory);
 
@@ -75,6 +74,10 @@ public class GetAllFileUtil {
 //                }
 
             }
+
+//            ssh.close();
+//
+//            conn.close();
             return filenames;
 
         } catch (IOException e) {

@@ -21,19 +21,16 @@ public class GetIOStream {
 
     /**
      * 获取包含关键字的一行信息
-     * @param node
      * @param file
      * @param keyword
      * @return
      */
-    public Log getAllLogs(Node node, String file, String keyword){
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = null;
+    public Log getAllLogs(String file, String keyword,Connection conn){
         Session ssh = null;
         Log log = new Log();
 
         try {
-            conn = nodeConnectUtil.getConnection(node);
+
             ssh = conn.openSession();
             ssh.execCommand("cat " + file);
             InputStream stdout = new StreamGobbler(ssh.getStdout());
@@ -60,8 +57,8 @@ public class GetIOStream {
 
 
             ssh.close();
-
             conn.close();
+            System.out.println("连接已关闭");
 
                     } catch (IOException e) {
                     e.printStackTrace();
@@ -75,19 +72,16 @@ public class GetIOStream {
 
     /**
      * 获取包含关键字的最新的一行信息
-     * @param node
      * @param file
      * @param keyword
      * @return
      */
-    public Log getLogByDate(Node node, String file, String keyword){
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = null;
+    public Log getLogByDate(String file, String keyword,Connection conn){
         Session ssh = null;
         Log log = new Log();
 
         try {
-            conn = nodeConnectUtil.getConnection(node);
+
             ssh = conn.openSession();
             ssh.execCommand("cat " + file);
             InputStream stdout = new StreamGobbler(ssh.getStdout());
@@ -116,8 +110,8 @@ public class GetIOStream {
 
 
             ssh.close();
-
             conn.close();
+            System.out.println("连接已关闭");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -131,20 +125,16 @@ public class GetIOStream {
 
     /**
      * 获取选中的某行的详细信息及上下文
-     * @param node
      * @param line
      * @param file
      * @return
      */
-    public Log getLogByLine(Node node,String file,int line){
+    public Log getLogByLine(String file,int line,Connection conn){
 
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = null;
         Session ssh = null;
         Log log = new Log();
 
         try {
-            conn = nodeConnectUtil.getConnection(node);
             ssh = conn.openSession();
             ssh.execCommand("cat " + file + " | tail -n +" + line +" | head -n 100");
             InputStream stdout = new StreamGobbler(ssh.getStdout());
@@ -152,7 +142,7 @@ public class GetIOStream {
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
             Map<Integer,String> map = new HashMap<Integer, String>();
-            int linenum = 1;
+            int linenum = line;
             int i = 0;
             String readLine = null;
 
@@ -167,8 +157,8 @@ public class GetIOStream {
             log.setMessages(map);
 
             ssh.close();
-
             conn.close();
+            System.out.println("连接已关闭");
 
         } catch (IOException e) {
             e.printStackTrace();
