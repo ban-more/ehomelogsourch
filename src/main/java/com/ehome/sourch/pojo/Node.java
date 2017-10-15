@@ -1,6 +1,7 @@
 package com.ehome.sourch.pojo;
 
 /**
+ * 服务器实体类
  * Created by wzw on 2017/9/28.
  */
 public class Node {

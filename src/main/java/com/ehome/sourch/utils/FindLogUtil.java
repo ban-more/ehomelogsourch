@@ -17,7 +17,7 @@ import java.util.Map;
  * 获取日志文件中包含关键字的日志
  * Created by wzw on 2017/10/9.
  */
-public class GetIOStream {
+public class FindLogUtil {
 
     /**
      * 获取包含关键字的一行信息
@@ -52,19 +52,16 @@ public class GetIOStream {
                 }
                 linenum++;
             }
+            log.setFilename(file);
             log.setMessages(map);
             log.setKeyword(keyword);
 
 
             ssh.close();
-            conn.close();
-            System.out.println("连接已关闭");
 
                     } catch (IOException e) {
                     e.printStackTrace();
                     }
-//            SCPClient client = new SCPClient(conn);
-//            client.get("/usr/local/", localTargetDirectory);
 
 
         return log;
@@ -76,7 +73,7 @@ public class GetIOStream {
      * @param keyword
      * @return
      */
-    public Log getLogByDate(String file, String keyword,Connection conn){
+    public Log getLogByNew(String file, String keyword,Connection conn){
         Session ssh = null;
         Log log = new Log();
 
@@ -105,21 +102,15 @@ public class GetIOStream {
                 linenum++;
             }
             map.put(flag, nearline);
+            log.setFilename(file);
             log.setMessages(map);
             log.setKeyword(keyword);
 
-
             ssh.close();
-            conn.close();
-            System.out.println("连接已关闭");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-//            SCPClient client = new SCPClient(conn);
-//            client.get("/usr/local/", localTargetDirectory);
-
-
         return log;
     }
 
@@ -154,11 +145,10 @@ public class GetIOStream {
 
                 linenum++;
             }
+            log.setFilename(file);
             log.setMessages(map);
 
             ssh.close();
-            conn.close();
-            System.out.println("连接已关闭");
 
         } catch (IOException e) {
             e.printStackTrace();

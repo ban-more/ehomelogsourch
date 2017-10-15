@@ -40,7 +40,7 @@ public class TestSomething {
 
         Node node = new Node();
 
-        String keyword = "1191640000000330";
+        String keyword = "Error";
         String file = "/weblogic/log/Node_A/e-srv01-01_20170905_220550.out";
         node.setIp("hadoop04");
         node.setPort(22);
@@ -55,21 +55,38 @@ public class TestSomething {
 
         Connection conn = nodeConnectUtil.getConnection(node);
 
-        String date = "2017-09-05";
+        String date1 = "2017-07-10";
+        String date2 = "2017-07-12";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-        Date date1 = df.parse(date);
+        Date dat1 = df.parse(date1);
+        Date dat2 = df.parse(date2);
 
         String nodename = "Node_A";
         int line = 15442;
-//        log = logDao.findAllLog(node,nodename,keyword,conn);
-//        log = logDao.findLogByDate(node,nodename,keyword,conn);
-        log = logDao.findLogByLine(file,nodename,line,conn);
+//        log = logDao.findAllLog(node,nodename,keyword,conn);//测试查找新生成的日志文件并且查找所有的日志信息
+//        log = logDao.findLogByNewByDate(dat1,node,nodename,keyword,conn);//测试按照指定日期查找的日志文件并取出最新的一行日志
+//        log =  logDao.findLogByNew(node,nodename,keyword,conn)//测试最新生成的日志文件并且取出最新的一行日志
+//        log = logDao.findLogByLine(file,nodename,line,conn);
+//        Map<Integer,String> map = new HashMap<Integer, String>();
+//        map = log.getMessages();
+//        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+//            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+//        }
+        List<Log> logs = new ArrayList<Log>();
         Map<Integer,String> map = new HashMap<Integer, String>();
-        map = log.getMessages();
-         for (Map.Entry<Integer, String> entry : map.entrySet()) {
-            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+        logs = logDao.findLogByNewByDate(dat1,dat2,node,nodename,keyword);
+        Iterator it = logs.iterator();
+        while(it.hasNext()){
+            log = (Log) it.next();
+            map = log.getMessages();
+            for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+            }
         }
+
+        conn.close();
+        System.out.println("连接已关闭");
 
 //        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
 //        Connection conn = null;

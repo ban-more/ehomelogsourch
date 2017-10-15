@@ -4,12 +4,31 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 日志实体类
  * Created by wzw on 2017/9/27.
  */
 public class Log {
 
     private String nodename;
     private String keyword;
+    private String filename;
+    private Node node;
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     private Map<Integer,String> messages;
 

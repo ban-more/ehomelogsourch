@@ -61,22 +61,22 @@ public class GetNeedFileUtli {
 
         String[] filenames = getAllFileUtil.getFile(conn);//获取指定目录下的所有文件
         String[] strs = new String[30];//取每个文件名中的日期
-
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");//将日期转换成字符串类型
+        String date = df.format(date1);
         String str =null;//取符合日期的文件名
         String st = null;//盛放小于符合条件日期的最近日期的文件名
         String s = null;
-        int j = 0;
+        Boolean flag = false;
         for(int i=0; i<filenames.length; i++) {
             if (filenames[i] != null) {
                 String[] filename = filenames[i].split(String.valueOf('_'));//取每个文件名称切割后的字符串数组
                 strs[i] = filename[2];
-                DateFormat df = new SimpleDateFormat("yyyyMMdd");
-                String date = df.format(date1);
+
                 if (strs[i].equals(date)) {
                     st = filenames[i];
-                    j = 1;
-                } else if (Long.valueOf(strs[i]) < Long.valueOf(date)) {
-                    if (i == 0||j==1) {
+                    flag = true;
+                } else if (Long.valueOf(strs[i]) < Long.valueOf(date) && !flag) {
+                    if (i == 0) {
                         s = strs[i];
                         st = filenames[i];
                     }
@@ -101,19 +101,24 @@ public class GetNeedFileUtli {
 
     }
 
-    public String[] getNeeedFileName(String date1,String data2,Node node,String path,Connection conn) {//date1至date2之间的文件名
+    public String[] getNeeedFileName(Date date1,Date date2,Node node,String path,Connection conn) {//date1至date2之间的文件名
         getAllFileUtil = new GetAllFileUtil(node,path);
 
         String[] filenames = getAllFileUtil.getFile(conn);//获取指定目录下的所有文件
         String[] strs = new String[30];//取每个文件名中的日期
         String[] str = new String[30];//取符合日期的文件名
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        String dat1 = df.format(date1);
+        String dat2 = df.format(date2);
         int j =0;
         for (int i = 0; i < filenames.length; i++) {
-            String[] filename = filenames[i].split(String.valueOf('_'));//取每个文件名称切割后的字符串数组
-            strs[i] = filename[1] + filename[2].split(".out");
-            if (Integer.valueOf(strs[i]) > Integer.valueOf(date1)&&Integer.valueOf(strs[i]) < Integer.valueOf(data2)) {
-                str[j] = filenames[i];
-                j++;
+            if(filenames[i]!=null) {
+                String[] filename = filenames[i].split(String.valueOf('_'));//取每个文件名称切割后的字符串数组
+                strs[i] = filename[2];
+                if (Integer.valueOf(strs[i]) >= Integer.valueOf(dat1) && Integer.valueOf(strs[i]) <= Integer.valueOf(dat2)) {
+                    str[j] = filenames[i];
+                    j++;
+                }
             }
         }
         return str;
