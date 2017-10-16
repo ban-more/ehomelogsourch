@@ -1,7 +1,6 @@
 package com.ehome.sourch.utils;
 
 import ch.ethz.ssh2.Connection;
-import ch.ethz.ssh2.SCPClient;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 import com.ehome.sourch.pojo.Node;
@@ -14,10 +13,8 @@ import java.io.*;
  */
 public class GetAllFileUtil {
 
-    private Node node;
     private String path;
-    public GetAllFileUtil(Node node,String path){
-        this.node = node;
+    public GetAllFileUtil(String path){
         this.path =path;
     }
     private NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
@@ -27,8 +24,6 @@ public class GetAllFileUtil {
         String[] filenames = new String[30];
         //获取链接
         try {
-//            SCPClient client = new SCPClient(conn);
-//            client.get("/usr/local/", localTargetDirectory);
 
             ssh = conn.openSession();
             ssh.execCommand("find " + path + " -name *.out");
@@ -64,47 +59,15 @@ public class GetAllFileUtil {
                         o++;
                     }
                 }
-//                if (array[i].isFile()){
-//                    if(array[i].getName().indexOf(".out")!= -1&&array[i].getName().indexOf("e-ser")!= -1){
-//                        filenames[o] = array[i].getName();
-//                        o++;
-//                    }
-
-
-//                }
 
             }
 
-//            ssh.close();
-//
-//            conn.close();
+
             return filenames;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // 获得指定文件对象
- //       File file = new File(path);
-        // 获得该文件夹内的所有文件
-  //      File[] array = file.listFiles();
-
-
-
-
-//        String[] filenames = new String[0];
-//        int o = 0;
-//        for (int i = 0; i < array.length; i++) {
-//
-//            if (array[i].isFile()){
-//                if(array[i].getName().indexOf(".out")!= -1){
-//                    filenames[o] = array[i].getName();
-//                    o++;
-//                }
-//
-//
-//            }
-//
-//        }
 
         return filenames;
     }

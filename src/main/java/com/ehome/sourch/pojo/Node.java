@@ -9,7 +9,15 @@ public class Node {
     private int port;
     private String username;
     private String password;
+    private String path;
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String getIp() {
         return ip;

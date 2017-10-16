@@ -4,7 +4,7 @@ import ch.ethz.ssh2.Connection;
 import com.ehome.sourch.pojo.Log;
 import com.ehome.sourch.pojo.Node;
 import com.ehome.sourch.utils.FindLogUtil;
-import com.ehome.sourch.utils.GetNeedFileUtli;
+import com.ehome.sourch.utils.GetNeedFileUtil;
 import com.ehome.sourch.utils.NodeConnectUtil;
 import com.ehome.sourch.utils.PathUtil;
 
@@ -27,17 +27,14 @@ public class LogDaoImpl implements LogDao{
      * @param keyword
      * @return
      */
-    public Log findAllLog(Node node, String nodename, String keyword) throws IOException {
-
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = nodeConnectUtil.getConnection(node);
+    public Log findAllLog(Node node, String nodename, String keyword,Connection conn) throws IOException {
 
         PathUtil pathUtil = new PathUtil();
         String path = pathUtil.getPath(nodename);
 
-        GetNeedFileUtli getNeedFileUtli = new GetNeedFileUtli();
+        GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String file = getNeedFileUtli.getNeeedFileName(node,path,conn);
+        String file = getNeedFileUtil.getNeeedFileName(node,path,conn);
 
         FindLogUtil findLogUtil = new FindLogUtil();
 
@@ -45,8 +42,7 @@ public class LogDaoImpl implements LogDao{
 
         log.setNodename(nodename);
         log.setNode(node);
-        conn.close();
-        System.out.println("连接已关闭");
+
         return log;
 
     }
@@ -58,17 +54,15 @@ public class LogDaoImpl implements LogDao{
      * @param keyword
      * @return
      */
-    public Log findLogByNew(Node node, String nodename, String keyword) throws IOException {
+    public Log findLogByNew(Node node, String nodename, String keyword,Connection conn) throws IOException {
 
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = nodeConnectUtil.getConnection(node);
 
         PathUtil pathUtil = new PathUtil();
         String path = pathUtil.getPath(nodename);
 
-        GetNeedFileUtli getNeedFileUtli = new GetNeedFileUtli();
+        GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String  file = getNeedFileUtli.getNeeedFileName(node,path,conn);
+        String  file = getNeedFileUtil.getNeeedFileName(node,path,conn);
 
         FindLogUtil findLogUtil = new FindLogUtil();
 
@@ -76,8 +70,6 @@ public class LogDaoImpl implements LogDao{
 
         log.setNodename(nodename);
         log.setNode(node);
-        conn.close();
-        System.out.println("连接已关闭");
         return log;
     }
 
@@ -90,17 +82,15 @@ public class LogDaoImpl implements LogDao{
      * @return
      * @throws ParseException
      */
-    public Log findAllLogByDate(Date date1, Node node, String nodename, String keyword) throws ParseException, IOException {
+    public Log findAllLogByDate(Date date1, Node node, String nodename, String keyword,Connection conn) throws ParseException, IOException {
 
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = nodeConnectUtil.getConnection(node);
 
         PathUtil pathUtil = new PathUtil();
         String path = pathUtil.getPath(nodename);
 
-        GetNeedFileUtli getNeedFileUtli = new GetNeedFileUtli();
+        GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String  file = getNeedFileUtli.getNeeedFileName(date1,node,path,conn);
+        String  file = getNeedFileUtil.getNeeedFileName(date1,node,path,conn);
 
         FindLogUtil findLogUtil = new FindLogUtil();
 
@@ -108,8 +98,7 @@ public class LogDaoImpl implements LogDao{
 
         log.setNodename(nodename);
         log.setNode(node);
-        conn.close();
-        System.out.println("连接已关闭");
+
         return log;
     }
     /**
@@ -121,17 +110,15 @@ public class LogDaoImpl implements LogDao{
      * @return
      * @throws ParseException
      */
-    public Log findLogByNewByDate(Date date1, Node node, String nodename, String keyword) throws ParseException, IOException {
+    public Log findLogByNewByDate(Date date1, Node node, String nodename, String keyword,Connection conn) throws ParseException, IOException {
 
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = nodeConnectUtil.getConnection(node);
 
         PathUtil pathUtil = new PathUtil();
         String path = pathUtil.getPath(nodename);
 
-        GetNeedFileUtli getNeedFileUtli = new GetNeedFileUtli();
+        GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String  file = getNeedFileUtli.getNeeedFileName(date1,node,path,conn);
+        String  file = getNeedFileUtil.getNeeedFileName(date1,node,path,conn);
 
         FindLogUtil findLogUtil = new FindLogUtil();
 
@@ -139,8 +126,7 @@ public class LogDaoImpl implements LogDao{
 
         log.setNodename(nodename);
         log.setNode(node);
-        conn.close();
-        System.out.println("连接已关闭");
+
         return log;
     }
 
@@ -154,18 +140,16 @@ public class LogDaoImpl implements LogDao{
      * @return
      * @throws ParseException
      */
-    public List<Log> findLogByNewByDate(Date date1, Date date2, Node node, String nodename, String keyword) throws ParseException, IOException {
+    public List<Log> findLogByNewByDate(Date date1, Date date2, Node node, String nodename, String keyword,Connection conn) throws ParseException, IOException {
 
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = nodeConnectUtil.getConnection(node);
 
         PathUtil pathUtil = new PathUtil();
         String path = pathUtil.getPath(nodename);
         List<Log> logs = new ArrayList<Log>();
 
-        GetNeedFileUtli getNeedFileUtli = new GetNeedFileUtli();
+        GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String[]  files = getNeedFileUtli.getNeeedFileName(date1,date2,node,path,conn);
+        String[]  files = getNeedFileUtil.getNeeedFileName(date1,date2,node,path,conn);
 
         FindLogUtil findLogUtil = new FindLogUtil();
         for(int i =0; i < files.length; i++) {
@@ -177,8 +161,7 @@ public class LogDaoImpl implements LogDao{
                 System.out.println(files[i]);
             }
         }
-        conn.close();
-        System.out.println("连接已关闭");
+
         return logs;
     }
 

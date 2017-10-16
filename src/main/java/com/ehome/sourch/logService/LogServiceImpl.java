@@ -1,9 +1,11 @@
 package com.ehome.sourch.logService;
 
+import ch.ethz.ssh2.Connection;
 import com.ehome.sourch.logDao.LogDao;
 import com.ehome.sourch.logDao.LogDaoImpl;
 import com.ehome.sourch.pojo.Log;
 import com.ehome.sourch.pojo.Node;
+import com.ehome.sourch.utils.NodeConnectUtil;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -27,9 +29,12 @@ public class LogServiceImpl implements LogService{
 
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                Log log1 = logDao.findLogByNew(nodes.get(i), nodenames.get(0), keyword);
-                Log log2 = logDao.findLogByNew(nodes.get(i), nodenames.get(1), keyword);
-
+                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+                Log log1 = logDao.findLogByNew(nodes.get(i), nodenames.get(0), keyword,conn);
+                Log log2 = logDao.findLogByNew(nodes.get(i), nodenames.get(1), keyword,conn);
+                conn.close();
+                System.out.println("连接已关闭");
                 logs.add(log1);
                 logs.add(log2);
             }
@@ -47,9 +52,12 @@ public class LogServiceImpl implements LogService{
 
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                Log log1 = logDao.findAllLog(nodes.get(i), nodenames.get(0), keyword);
-                Log log2 = logDao.findAllLog(nodes.get(i), nodenames.get(1), keyword);
-
+                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+                Log log1 = logDao.findAllLog(nodes.get(i), nodenames.get(0), keyword,conn);
+                Log log2 = logDao.findAllLog(nodes.get(i), nodenames.get(1), keyword,conn);
+                conn.close();
+                System.out.println("连接已关闭");
                 logs.add(log1);
                 logs.add(log2);
             }
@@ -66,9 +74,12 @@ public class LogServiceImpl implements LogService{
 
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                Log log1 = logDao.findAllLogByDate(date1,nodes.get(i), nodenames.get(0), keyword);
-                Log log2 = logDao.findAllLogByDate(date1,nodes.get(i), nodenames.get(1), keyword);
-
+                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+                Log log1 = logDao.findAllLogByDate(date1,nodes.get(i), nodenames.get(0), keyword,conn);
+                Log log2 = logDao.findAllLogByDate(date1,nodes.get(i), nodenames.get(1), keyword,conn);
+                conn.close();
+                System.out.println("连接已关闭");
                 logs.add(log1);
                 logs.add(log2);
             }
@@ -85,9 +96,12 @@ public class LogServiceImpl implements LogService{
 
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                Log log1 = logDao.findLogByNewByDate(date1,nodes.get(i), nodenames.get(0), keyword);
-                Log log2 = logDao.findLogByNewByDate(date1,nodes.get(i), nodenames.get(1), keyword);
-
+                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+                Log log1 = logDao.findLogByNewByDate(date1,nodes.get(i), nodenames.get(0), keyword,conn);
+                Log log2 = logDao.findLogByNewByDate(date1,nodes.get(i), nodenames.get(1), keyword,conn);
+                conn.close();
+                System.out.println("连接已关闭");
                 logs.add(log1);
                 logs.add(log2);
             }
@@ -105,9 +119,12 @@ public class LogServiceImpl implements LogService{
 
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                List<Log> log1 = logDao.findLogByNewByDate(date1,date2,nodes.get(i), nodenames.get(0), keyword);
-                List<Log> log2 = logDao.findLogByNewByDate(date1,date2,nodes.get(i), nodenames.get(1), keyword);
-
+                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+                List<Log> log1 = logDao.findLogByNewByDate(date1,date2,nodes.get(i), nodenames.get(0), keyword,conn);
+                List<Log> log2 = logDao.findLogByNewByDate(date1,date2,nodes.get(i), nodenames.get(1), keyword,conn);
+                conn.close();
+                System.out.println("连接已关闭");
 
                 logs.addAll(log1);
                 logs.addAll(log2);

@@ -7,6 +7,7 @@ import com.ehome.sourch.pojo.Node;
 import java.io.*;
 
 /**
+ * 连接服务器
  * Created by wzw on 2017/9/27.
  */
 public class NodeConnectUtil {
@@ -27,21 +28,7 @@ public class NodeConnectUtil {
         } else {
             System.out.println("已经连接OK");
 
-
-//            File folder = new File(path);
-//            GetNeedFileUtli getNeedFileUtli = new GetNeedFileUtli();
-//
-//            String
-////            if (!folder.exists()) {
-////                folder.mkdir();
-////            }
-
          }
-//        SCPClient clt = conn.createSCPClient();
-//        ssh = conn.openSession();
-//        ssh.execCommand("find " + path + "-name '*.txt'");
-//        InputStream is = new StreamGobbler(ssh.getStdout());
-//        return (new InputStreamReader(is));
         return conn;
     }
 }
