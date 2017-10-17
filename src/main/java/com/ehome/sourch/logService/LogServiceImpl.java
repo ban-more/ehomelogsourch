@@ -23,20 +23,14 @@ public class LogServiceImpl implements LogService{
     public List<Log> findLogByNew(List<Node> nodes, String keyword) throws IOException {
         List<Log> logs = new ArrayList<Log>();
 
-        List<String> nodenames = new ArrayList<String>();
-        nodenames.add("Node_A");
-        nodenames.add("Node_B");
-
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
                 NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
                 Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                Log log1 = logDao.findLogByNew(nodes.get(i), nodenames.get(0), keyword,conn);
-                Log log2 = logDao.findLogByNew(nodes.get(i), nodenames.get(1), keyword,conn);
+                Log log1 = logDao.findLogByNew(nodes.get(i), keyword,conn);
                 conn.close();
                 System.out.println("连接已关闭");
                 logs.add(log1);
-                logs.add(log2);
             }
         }
         return logs;
@@ -46,20 +40,15 @@ public class LogServiceImpl implements LogService{
     public List<Log> findAllLog(List<Node> nodes, String keyword) throws IOException {
         List<Log> logs = new ArrayList<Log>();
 
-        List<String> nodenames = new ArrayList<String>();
-        nodenames.add("Node_A");
-        nodenames.add("Node_B");
 
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
                 NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
                 Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                Log log1 = logDao.findAllLog(nodes.get(i), nodenames.get(0), keyword,conn);
-                Log log2 = logDao.findAllLog(nodes.get(i), nodenames.get(1), keyword,conn);
+                Log log1 = logDao.findAllLog(nodes.get(i), keyword,conn);
                 conn.close();
                 System.out.println("连接已关闭");
                 logs.add(log1);
-                logs.add(log2);
             }
         }
         return logs;
@@ -68,20 +57,14 @@ public class LogServiceImpl implements LogService{
     public List<Log> findAllLogByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException {
         List<Log> logs = new ArrayList<Log>();
 
-        List<String> nodenames = new ArrayList<String>();
-        nodenames.add("Node_A");
-        nodenames.add("Node_B");
-
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
                 NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
                 Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                Log log1 = logDao.findAllLogByDate(date1,nodes.get(i), nodenames.get(0), keyword,conn);
-                Log log2 = logDao.findAllLogByDate(date1,nodes.get(i), nodenames.get(1), keyword,conn);
+                Log log1 = logDao.findAllLogByDate(date1,nodes.get(i), keyword,conn);
                 conn.close();
                 System.out.println("连接已关闭");
                 logs.add(log1);
-                logs.add(log2);
             }
         }
         return logs;
@@ -90,20 +73,14 @@ public class LogServiceImpl implements LogService{
     public List<Log> findLogByNewByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException {
         List<Log> logs = new ArrayList<Log>();
 
-        List<String> nodenames = new ArrayList<String>();
-        nodenames.add("Node_A");
-        nodenames.add("Node_B");
-
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
                 NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
                 Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                Log log1 = logDao.findLogByNewByDate(date1,nodes.get(i), nodenames.get(0), keyword,conn);
-                Log log2 = logDao.findLogByNewByDate(date1,nodes.get(i), nodenames.get(1), keyword,conn);
+                Log log1 = logDao.findLogByNewByDate(date1,nodes.get(i), keyword,conn);
                 conn.close();
                 System.out.println("连接已关闭");
                 logs.add(log1);
-                logs.add(log2);
             }
         }
         return logs;
@@ -113,29 +90,23 @@ public class LogServiceImpl implements LogService{
     public List<Log> findLogByNewByDate(Date date1, Date date2, List<Node> nodes, String keyword) throws ParseException, IOException {
         List<Log> logs = new ArrayList<Log>();
 
-        List<String> nodenames = new ArrayList<String>();
-        nodenames.add("Node_A");
-        nodenames.add("Node_B");
-
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
                 NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
                 Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                List<Log> log1 = logDao.findLogByNewByDate(date1,date2,nodes.get(i), nodenames.get(0), keyword,conn);
-                List<Log> log2 = logDao.findLogByNewByDate(date1,date2,nodes.get(i), nodenames.get(1), keyword,conn);
+                List<Log> log1 = logDao.findLogByNewByDate(date1,date2,nodes.get(i), keyword,conn);
                 conn.close();
                 System.out.println("连接已关闭");
 
                 logs.addAll(log1);
-                logs.addAll(log2);
             }
         }
         return logs;
     }
 
-    public Log findLogByLine(Node node, String file, String nodename, int line) throws IOException {
+    public Log findLogByLine(Node node, String file, int line) throws IOException {
 
-        Log log = logDao.findLogByLine(node,file,nodename,line);
+        Log log = logDao.findLogByLine(node,file,line);
         return log;
 
     }

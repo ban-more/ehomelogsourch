@@ -9,7 +9,6 @@ import java.util.Map;
  */
 public class Log {
 
-    private String nodename;
     private String keyword;
     private String filename;
     private Node node;
@@ -40,14 +39,6 @@ public class Log {
         this.messages = messages;
     }
 
-    public String getNodename() {
-
-        return nodename;
-    }
-
-    public void setNodename(String nodename) {
-        this.nodename = nodename;
-    }
 
     public String getKeyword() {
         return keyword;
@@ -56,8 +47,6 @@ public class Log {
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
-
-
 
 
 }

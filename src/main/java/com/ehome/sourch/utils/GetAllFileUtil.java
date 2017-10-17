@@ -71,6 +71,59 @@ public class GetAllFileUtil {
 
         return filenames;
     }
+    public String[] getfilename(Connection conn){
+        Session ssh = null;
+        String[] filenames = new String[30];
+        //获取链接
+        try {
+
+            ssh = conn.openSession();
+            ssh.execCommand("find " + path + " -name *.log");
+            InputStream stdout = new StreamGobbler(ssh.getStdout());
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
+            String[] array = new String[30];
+            int j=0;
+            while (true) {
+
+                // attention: do not comment this block, or you will hit
+                // NullPointerException
+
+                // when you are trying to read exit status
+
+                String line = br.readLine();
+
+                if (line == null) {
+                    break;
+                }
+
+                array[j] = line;
+                j++;
+
+            }
+
+            int o = 0;
+            for (int i = 0; i < array.length; i++) {
+                if(array[i] != null) {
+
+                    if (array[i].indexOf("e-srv") != -1) {
+                        filenames[o] = array[i];
+                        o++;
+                    }
+                }
+
+            }
+
+
+            return filenames;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return filenames;
+    }
+
 }
 
 

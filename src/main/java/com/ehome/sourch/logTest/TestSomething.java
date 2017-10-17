@@ -63,7 +63,7 @@ public class TestSomething {
             map = log.getMessages();
             Node node = log.getNode();
             for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + log.getNodename() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
+                System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + node.getNodemane() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
 
                 System.out.println("| Line: " + entry.getKey() + " | message: " + entry.getValue());
             }

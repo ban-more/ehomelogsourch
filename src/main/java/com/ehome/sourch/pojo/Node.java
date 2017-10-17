@@ -10,6 +10,15 @@ public class Node {
     private String username;
     private String password;
     private String path;
+   private String nodemane;
+
+    public String getNodemane() {
+        return nodemane;
+    }
+
+    public void setNodemane(String nodemane) {
+        this.nodemane = nodemane;
+    }
 
     public String getPath() {
         return path;

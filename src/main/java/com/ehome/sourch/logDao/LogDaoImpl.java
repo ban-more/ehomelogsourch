@@ -23,15 +23,22 @@ public class LogDaoImpl implements LogDao{
     /**
      * 查找最新生成的日志文件并且取出所有的日志信息
      * @param node
-     * @param nodename
      * @param keyword
      * @return
      */
-    public Log findAllLog(Node node, String nodename, String keyword,Connection conn) throws IOException {
+    public Log findAllLog(Node node, String keyword,Connection conn) throws IOException {
 
-        PathUtil pathUtil = new PathUtil();
-        String path = pathUtil.getPath(nodename);
-
+        String path = null;
+        if(node.getPath() != null){
+            path = node.getPath();
+        }else {
+            PathUtil pathUtil = new PathUtil();
+            if(node.getNodemane() == "srv1") {
+                path = pathUtil.getPath("Node_A");
+            }else if(node.getNodemane() == "srv2"){
+                path = pathUtil.getPath("Node_B");
+            }
+        }
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
         String file = getNeedFileUtil.getNeeedFileName(node,path,conn);
@@ -40,7 +47,6 @@ public class LogDaoImpl implements LogDao{
 
         Log log = findLogUtil.getAllLogs(file, keyword,conn);
 
-        log.setNodename(nodename);
         log.setNode(node);
 
         return log;
@@ -50,15 +56,23 @@ public class LogDaoImpl implements LogDao{
     /**
      * 测试最新生成的日志文件并且取出最新的一行日志
      * @param node
-     * @param nodename
      * @param keyword
      * @return
      */
-    public Log findLogByNew(Node node, String nodename, String keyword,Connection conn) throws IOException {
+    public Log findLogByNew(Node node, String keyword,Connection conn) throws IOException {
 
 
-        PathUtil pathUtil = new PathUtil();
-        String path = pathUtil.getPath(nodename);
+        String path = null;
+        if(node.getPath() != null&&!"".equals(node.getPath())){
+            path = node.getPath();
+        }else {
+            PathUtil pathUtil = new PathUtil();
+            if("srv1".equals(node.getNodemane())) {
+                path = pathUtil.getPath("Node_A");
+            }else if("srv2".equals(node.getNodemane())){
+                path = pathUtil.getPath("Node_B");
+            }
+        }
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
@@ -68,7 +82,6 @@ public class LogDaoImpl implements LogDao{
 
         Log log = findLogUtil.getLogByNew(file, keyword,conn);
 
-        log.setNodename(nodename);
         log.setNode(node);
         return log;
     }
@@ -77,16 +90,23 @@ public class LogDaoImpl implements LogDao{
      * 按照指定日期查找的日志文件并取出所有的日志信息
      * @param date1
      * @param node
-     * @param nodename
      * @param keyword
      * @return
      * @throws ParseException
      */
-    public Log findAllLogByDate(Date date1, Node node, String nodename, String keyword,Connection conn) throws ParseException, IOException {
+    public Log findAllLogByDate(Date date1, Node node, String keyword,Connection conn) throws ParseException, IOException {
 
-
-        PathUtil pathUtil = new PathUtil();
-        String path = pathUtil.getPath(nodename);
+        String path = null;
+        if(node.getPath() != null){
+            path = node.getPath();
+        }else {
+            PathUtil pathUtil = new PathUtil();
+            if(node.getNodemane() == "srv1") {
+                path = pathUtil.getPath("Node_A");
+            }else if(node.getNodemane() == "srv2"){
+                path = pathUtil.getPath("Node_B");
+            }
+        }
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
@@ -96,7 +116,6 @@ public class LogDaoImpl implements LogDao{
 
         Log log = findLogUtil.getAllLogs(file, keyword,conn);
 
-        log.setNodename(nodename);
         log.setNode(node);
 
         return log;
@@ -105,16 +124,23 @@ public class LogDaoImpl implements LogDao{
      * 按照指定日期查找的日志文件并取出最新的一行日志
      * @param date1
      * @param node
-     * @param nodename
      * @param keyword
      * @return
      * @throws ParseException
      */
-    public Log findLogByNewByDate(Date date1, Node node, String nodename, String keyword,Connection conn) throws ParseException, IOException {
+    public Log findLogByNewByDate(Date date1, Node node, String keyword,Connection conn) throws ParseException, IOException {
 
-
-        PathUtil pathUtil = new PathUtil();
-        String path = pathUtil.getPath(nodename);
+        String path = null;
+        if(node.getPath() != null){
+            path = node.getPath();
+        }else {
+            PathUtil pathUtil = new PathUtil();
+            if(node.getNodemane() == "srv1") {
+                path = pathUtil.getPath("Node_A");
+            }else if(node.getNodemane() == "srv2"){
+                path = pathUtil.getPath("Node_B");
+            }
+        }
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
@@ -124,7 +150,6 @@ public class LogDaoImpl implements LogDao{
 
         Log log = findLogUtil.getLogByNew(file, keyword,conn);
 
-        log.setNodename(nodename);
         log.setNode(node);
 
         return log;
@@ -135,16 +160,24 @@ public class LogDaoImpl implements LogDao{
      * @param date1
      * @param date2
      * @param node
-     * @param nodename
      * @param keyword
      * @return
      * @throws ParseException
      */
-    public List<Log> findLogByNewByDate(Date date1, Date date2, Node node, String nodename, String keyword,Connection conn) throws ParseException, IOException {
+    public List<Log> findLogByNewByDate(Date date1, Date date2, Node node, String keyword,Connection conn) throws ParseException, IOException {
 
 
-        PathUtil pathUtil = new PathUtil();
-        String path = pathUtil.getPath(nodename);
+        String path = null;
+        if(node.getPath() != null){
+            path = node.getPath();
+        }else {
+            PathUtil pathUtil = new PathUtil();
+            if(node.getNodemane() == "srv1") {
+                path = pathUtil.getPath("Node_A");
+            }else if(node.getNodemane() == "srv2"){
+                path = pathUtil.getPath("Node_B");
+            }
+        }
         List<Log> logs = new ArrayList<Log>();
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
@@ -155,7 +188,6 @@ public class LogDaoImpl implements LogDao{
         for(int i =0; i < files.length; i++) {
             if(files[i]!=null) {
                 Log log = findLogUtil.getLogByNew(files[i], keyword, conn);
-                log.setNodename(nodename);
                 log.setNode(node);
                 logs.add(log);
                 System.out.println(files[i]);
@@ -165,7 +197,7 @@ public class LogDaoImpl implements LogDao{
         return logs;
     }
 
-    public Log findLogByLine(Node node,String file, String nodename, int line) throws IOException {
+    public Log findLogByLine(Node node,String file, int line) throws IOException {
 
         NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
         Connection conn = nodeConnectUtil.getConnection(node);
@@ -173,8 +205,6 @@ public class LogDaoImpl implements LogDao{
         FindLogUtil findLogUtil = new FindLogUtil();
 
         Log log = findLogUtil.getLogByLine(file, line,conn);
-
-        log.setNodename(nodename);
 
         conn.close();
         System.out.println("连接已关闭");
