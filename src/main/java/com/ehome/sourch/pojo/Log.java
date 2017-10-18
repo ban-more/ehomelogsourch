@@ -12,6 +12,15 @@ public class Log {
     private String keyword;
     private String filename;
     private Node node;
+    private String nodename;
+
+    public String getNodename() {
+        return nodename;
+    }
+
+    public void setNodename(String nodename) {
+        this.nodename = nodename;
+    }
 
     public Node getNode() {
         return node;

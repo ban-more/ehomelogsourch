@@ -24,5 +24,5 @@ public interface LogService {
 
     public List<Log> findLogByNewByDate(Date date1, Date date2, List<Node> nodes, String keyword) throws ParseException, IOException;
 
-    public Log findLogByLine(Node node,String file, int line)throws IOException;
+    public Log findLogByLine(Node node,String nodename,String file, int line)throws IOException;
 }

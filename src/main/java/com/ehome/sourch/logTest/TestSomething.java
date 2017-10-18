@@ -43,9 +43,9 @@ public class TestSomething {
 
         String nodename = "Node_A";
         int line = 15442;
-//        log = logDao.findAllLog(node,nodename,keyword,conn);//测试查找新生成的日志文件并且查找所有的日志信息
+//       List<Log> logs = logService.findAllLog(nodes,keyword);//测试查找新生成的日志文件并且查
 //        log = logDao.findLogByNewByDate(dat1,node,nodename,keyword,conn);//测试按照指定日期查找的日志文件并取出最新的一行日志
-        List<Log> logs  =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
+          List<Log> logs  =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
 //        log = logDao.findLogByLine(file,nodename,line,conn);
 //        List<Log> logs = logDao.findLogByNewByDate(dat1,dat2,node,nodename,keyword);
 //        Map<Integer,String> map = new HashMap<Integer, String>();
@@ -63,7 +63,7 @@ public class TestSomething {
             map = log.getMessages();
             Node node = log.getNode();
             for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + node.getNodemane() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
+                System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + log.getNodename() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
 
                 System.out.println("| Line: " + entry.getKey() + " | message: " + entry.getValue());
             }

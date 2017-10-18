@@ -9,23 +9,41 @@ public class Node {
     private int port;
     private String username;
     private String password;
-    private String path;
-   private String nodemane;
+    private String path1;
+    private String path2;
+    private String nodename1;
+    private String nodename2;
 
-    public String getNodemane() {
-        return nodemane;
+    public String getPath1() {
+        return path1;
     }
 
-    public void setNodemane(String nodemane) {
-        this.nodemane = nodemane;
+    public void setPath1(String path1) {
+        this.path1 = path1;
     }
 
-    public String getPath() {
-        return path;
+    public String getPath2() {
+        return path2;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setPath2(String path2) {
+        this.path2 = path2;
+    }
+
+    public String getNodename1() {
+        return nodename1;
+    }
+
+    public void setNodename1(String nodename1) {
+        this.nodename1 = nodename1;
+    }
+
+    public String getNodename2() {
+        return nodename2;
+    }
+
+    public void setNodename2(String nodename2) {
+        this.nodename2 = nodename2;
     }
 
     public String getIp() {

@@ -24,23 +24,20 @@ public class GetServerMessageUtil {
             node1.setPort(Integer.valueOf(PropertiesUtil.getPropertyValue("port"+i)));
             node1.setUsername(PropertiesUtil.getPropertyValue("username"+i));
             node1.setPassword(PropertiesUtil.getPropertyValue("password"+i));
-            node1.setNodemane(PropertiesUtil.getPropertyValue("nodename"+i+"-1"));
-            if( PropertiesUtil.getPropertyValue("path"+i+"-1") != null) {
-                node1.setPath(PropertiesUtil.getPropertyValue("path" + i+"-1"));
+           if( PropertiesUtil.getPropertyValue("nodename"+i+"-1") != null&&!"".equals(PropertiesUtil.getPropertyValue("nodename"+i+"-1"))){
+                node1.setNodename1(PropertiesUtil.getPropertyValue("nodename"+i+"-1"));
+                if (PropertiesUtil.getPropertyValue("path" + i + "-1") != null) {
+                    node1.setPath1(PropertiesUtil.getPropertyValue("path" + i + "-1"));
+                }
             }
-            Node node2 = new Node();
-
-            node2.setIp(PropertiesUtil.getPropertyValue("ip"+i));
-            node2.setPort(Integer.valueOf(PropertiesUtil.getPropertyValue("port"+i)));
-            node2.setUsername(PropertiesUtil.getPropertyValue("username"+i));
-            node2.setPassword(PropertiesUtil.getPropertyValue("password"+i));
-            node2.setNodemane(PropertiesUtil.getPropertyValue("nodename"+i+"-2"));
-            if( PropertiesUtil.getPropertyValue("path"+i+"-2") != null) {
-                node2.setPath(PropertiesUtil.getPropertyValue("path" + i+"-2"));
+            if(PropertiesUtil.getPropertyValue("nodename"+i+"-2") != null&&!"".equals(PropertiesUtil.getPropertyValue("nodename"+i+"-2"))) {
+                node1.setNodename2(PropertiesUtil.getPropertyValue("nodename" + i + "-2"));
+                if (PropertiesUtil.getPropertyValue("path" + i + "-2") != null) {
+                    node1.setPath2(PropertiesUtil.getPropertyValue("path" + i + "-2"));
+                }
             }
 
             nodes.add(node1);
-            nodes.add(node2);
         }
 
         return nodes;
