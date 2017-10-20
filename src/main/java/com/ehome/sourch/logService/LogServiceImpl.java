@@ -1,7 +1,7 @@
 package com.ehome.sourch.logService;
 
 import ch.ethz.ssh2.Connection;
-import com.ehome.sourch.logDao.LogDao;
+import com.alibaba.fastjson.JSON;
 import com.ehome.sourch.logDao.LogDaoImpl;
 import com.ehome.sourch.pojo.Log;
 import com.ehome.sourch.pojo.Node;
@@ -17,11 +17,11 @@ import java.util.List;
 /**
  * Created by wzw on 2017/9/26.
  */
-public class LogServiceImpl implements LogService{
+public class LogServiceImpl{
 
-    private LogDao logDao = new LogDaoImpl();
+    private LogDaoImpl logDao = new LogDaoImpl();
 
-    public List<Log> findLogByNew(List<Node> nodes, String keyword) throws IOException {
+    public String  findLogByNew(List<Node> nodes, String keyword) throws IOException {
 
         List<Log> logs = new ArrayList<Log>();
 
@@ -39,11 +39,12 @@ public class LogServiceImpl implements LogService{
                 logs.add(log2);
             }
         }
-        return logs;
+        String jsonStr = JSON.toJSONString(logs);
+        return jsonStr;
     }
 
 
-    public List<Log> findAllLog(List<Node> nodes, String keyword) throws IOException {
+    public String findAllLog(List<Node> nodes, String keyword) throws IOException {
         List<Log> logs = new ArrayList<Log>();
 
 
@@ -62,10 +63,11 @@ public class LogServiceImpl implements LogService{
                 logs.add(log2);
             }
         }
-        return logs;
+        String jsonStr = JSON.toJSONString(logs);
+        return jsonStr;
     }
 
-    public List<Log> findAllLogByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException {
+    public String findAllLogByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException {
         List<Log> logs = new ArrayList<Log>();
 
         for(int i=0; i < nodes.size(); i++){
@@ -83,10 +85,11 @@ public class LogServiceImpl implements LogService{
                 logs.add(log2);
             }
         }
-        return logs;
+        String jsonStr = JSON.toJSONString(logs);
+        return jsonStr;
     }
 
-    public List<Log> findLogByNewByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException {
+    public String findLogByNewByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException {
         List<Log> logs = new ArrayList<Log>();
 
         for(int i=0; i < nodes.size(); i++){
@@ -103,11 +106,12 @@ public class LogServiceImpl implements LogService{
                 logs.add(log2);
             }
         }
-        return logs;
+        String jsonStr = JSON.toJSONString(logs);
+        return jsonStr;
     }
 
 
-    public List<Log> findLogByNewByDate(Date date1, Date date2, List<Node> nodes, String keyword) throws ParseException, IOException {
+    public String findLogByNewByDate(Date date1, Date date2, List<Node> nodes, String keyword) throws ParseException, IOException {
         List<Log> logs = new ArrayList<Log>();
 
         for(int i=0; i < nodes.size(); i++){
@@ -125,13 +129,15 @@ public class LogServiceImpl implements LogService{
                 logs.addAll(log2);
             }
         }
-        return logs;
+        String jsonStr = JSON.toJSONString(logs);
+        return jsonStr;
     }
 
-    public Log findLogByLine(Node node,String nodename, String file, int line) throws IOException {
+    public String findLogByLine(Node node,String nodename, String file, int line) throws IOException {
 
         Log log = logDao.findLogByLine(node, nodename,file,line);
-        return log;
+        String jsonStr = JSON.toJSONString(log);
+        return jsonStr;
 
     }
 

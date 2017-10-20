@@ -1,6 +1,6 @@
 package com.ehome.sourch.logTest;
 
-import com.ehome.sourch.logService.LogService;
+import com.alibaba.fastjson.JSON;
 import com.ehome.sourch.logService.LogServiceImpl;
 import com.ehome.sourch.pojo.Log;
 import com.ehome.sourch.pojo.Node;
@@ -26,7 +26,7 @@ public class TestSomething {
 
         String file = "/weblogic/log/Node_A/e-srv01-01_20170905_220550.out";
         String keyword = "Error";
-        LogService logService = new LogServiceImpl();
+        LogServiceImpl logService = new LogServiceImpl();
 
         Log log = new Log();
 
@@ -45,7 +45,7 @@ public class TestSomething {
         int line = 15442;
 //       List<Log> logs = logService.findAllLog(nodes,keyword);//测试查找新生成的日志文件并且查
 //        log = logDao.findLogByNewByDate(dat1,node,nodename,keyword,conn);//测试按照指定日期查找的日志文件并取出最新的一行日志
-          List<Log> logs  =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
+           String logString =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
 //        log = logDao.findLogByLine(file,nodename,line,conn);
 //        List<Log> logs = logDao.findLogByNewByDate(dat1,dat2,node,nodename,keyword);
 //        Map<Integer,String> map = new HashMap<Integer, String>();
@@ -56,6 +56,8 @@ public class TestSomething {
 
 
 //        List<Log> logs = new ArrayList<Log>();
+
+        List<Log> logs = JSON.parseArray(logString, Log.class);
         Map<Integer,String> map = new HashMap<Integer, String>();
         Iterator it = logs.iterator();
         while(it.hasNext()){

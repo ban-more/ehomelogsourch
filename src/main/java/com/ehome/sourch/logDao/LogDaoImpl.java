@@ -18,7 +18,7 @@ import java.util.List;
  * 日志伪Dao层
  * Created by wzw on 2017/10/10.
  */
-public class LogDaoImpl implements LogDao{
+public class LogDaoImpl{
 
     /**
      * 查找最新生成的日志文件并且取出所有的日志信息
