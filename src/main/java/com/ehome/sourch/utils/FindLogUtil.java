@@ -147,7 +147,6 @@ public class FindLogUtil {
             }
             log.setFilename(file);
             log.setMessages(map);
-
             ssh.close();
 
         } catch (IOException e) {

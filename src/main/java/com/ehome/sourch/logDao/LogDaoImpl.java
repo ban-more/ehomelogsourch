@@ -142,18 +142,15 @@ public class LogDaoImpl{
         return logs;
     }
 
-    public Log findLogByLine(Node node, String nodename, String file, int line) throws IOException {
+    public Log findLogByLine(Node node, String nodename,String keyword, String file, int line,Connection conn) throws IOException {
 
-        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-        Connection conn = nodeConnectUtil.getConnection(node);
 
         FindLogUtil findLogUtil = new FindLogUtil();
 
         Log log = findLogUtil.getLogByLine(file, line,conn);
+        log.setKeyword(keyword);
         log.setNode(node);
         log.setNodename(nodename);
-        conn.close();
-        System.out.println("连接已关闭");
         return log;
     }
 }
