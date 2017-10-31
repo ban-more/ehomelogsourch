@@ -1,0 +1,13 @@
+servernum=2
+ip1=192.168.221.128
+port1=22
+username1=root
+password1=wang1509
+nodename1-1=srv1
+nodename1-2=srv2
+ip2=192.168.221.129
+port2=22
+username2=root
+password2=wang1509
+nodename2-1=srv1
+nodename2-2=srv2

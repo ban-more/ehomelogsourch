@@ -45,8 +45,13 @@ public class GetNeedFileUtil {
                 }
             }
         }
-        System.out.println(str);
-        return str;
+        if(str != null) {
+            System.out.println(str);
+            return str;
+        }else{
+            System.out.println("Can not found file!!");
+            return "null";
+        }
     }
 
     /**
@@ -95,8 +100,13 @@ public class GetNeedFileUtil {
             return str;
 
         }else{
-            System.out.println(st);
-            return st;
+            if(st != null) {
+                System.out.println(st);
+                return st;
+            } else{
+                System.out.println("Can not found file!!");
+                return "null";
+            }
         }
 
     }
@@ -121,6 +131,12 @@ public class GetNeedFileUtil {
                 }
             }
         }
-        return str;
+        if(str != null) {
+            System.out.println(str);
+            return str;
+        }else{
+            System.out.println("Can not found file!!");
+            return null;
+        }
     }
 }

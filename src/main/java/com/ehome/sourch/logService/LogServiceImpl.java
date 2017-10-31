@@ -2,12 +2,12 @@ package com.ehome.sourch.logService;
 
 import ch.ethz.ssh2.Connection;
 import com.alibaba.fastjson.JSON;
+import com.ehome.sourch.Task.*;
 import com.ehome.sourch.logDao.LogDaoImpl;
 import com.ehome.sourch.pojo.Log;
 import com.ehome.sourch.pojo.Node;
 import com.ehome.sourch.utils.GetThreadPoolUtil;
 import com.ehome.sourch.utils.NodeConnectUtil;
-import com.ehome.sourch.utils.PathUtil;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -26,11 +26,12 @@ public class LogServiceImpl{
     private GetThreadPoolUtil getThreadPoolUtil = new GetThreadPoolUtil();
 
 
-    public String  findLogByNew(List<Node> nodes, String keyword,CountDownLatch _latch) throws IOException, InterruptedException {
+    public String  findLogByNew(List<Node> nodes, String keyword) throws IOException, InterruptedException {
+        CountDownLatch _latch = new CountDownLatch(nodes.size());
         ThreadPoolExecutor pool = getThreadPoolUtil.getThreadPool();
         List<Log> logs = new ArrayList<Log>();
         int j=0;
-        MyTask[] m = new MyTask[nodes.size()+1];
+        MyTask1[] m = new MyTask1[nodes.size()+1];
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
 //                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
@@ -44,11 +45,12 @@ public class LogServiceImpl{
 //                logs.add(log1);
 //                logs.add(log2);
 
-                 m[j]= new MyTask(nodes.get(i),keyword,_latch);
+                m[j]= new MyTask1(nodes.get(i),keyword,_latch);
                 pool.execute(m[j]);
                 j++;
             }
         }
+        _latch.await();
         for(int k = 0; k<=j; k++ ){
             if(m[k] != null) {
                 logs.addAll(m[k].getLogs());
@@ -61,91 +63,144 @@ public class LogServiceImpl{
     }
 
 
-    public String findAllLog(List<Node> nodes, String keyword) throws IOException {
+    public String findAllLog(List<Node> nodes, String keyword) throws IOException, InterruptedException {
+        CountDownLatch _latch = new CountDownLatch(nodes.size());
         List<Log> logs = new ArrayList<Log>();
-
-
+        ThreadPoolExecutor pool = getThreadPoolUtil.getThreadPool();
+        int j=0;
+        MyTask2[] m = new MyTask2[nodes.size()+1];
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                PathUtil pathUtil= new PathUtil();
-                Node node = pathUtil.getPath(nodes.get(i));
-
-                Log log1 = logDao.findAllLog(node, node.getNodename1(), node.getPath1(), keyword,conn);
-                Log log2 = logDao.findAllLog(node, node.getNodename2(), node.getPath2(), keyword,conn);
-                conn.close();
-                System.out.println("连接已关闭");
-                logs.add(log1);
-                logs.add(log2);
+//                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+//                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+//                PathUtil pathUtil= new PathUtil();
+//                Node node = pathUtil.getPath(nodes.get(i));
+//
+//                Log log1 = logDao.findAllLog(node, node.getNodename1(), node.getPath1(), keyword,conn);
+//                Log log2 = logDao.findAllLog(node, node.getNodename2(), node.getPath2(), keyword,conn);
+//                conn.close();
+//                System.out.println("连接已关闭");
+//                logs.add(log1);
+//                logs.add(log2);
+                m[j]= new MyTask2(nodes.get(i),keyword,_latch);
+                pool.execute(m[j]);
+                j++;
             }
         }
+        _latch.await();
+        for(int k = 0; k<=j; k++ ){
+            if(m[k] != null) {
+                logs.addAll(m[k].getLogs());
+            }
+        }
+
+        pool.shutdown();
         String jsonStr = JSON.toJSONString(logs);
         return jsonStr;
     }
 
-    public String findAllLogByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException {
+    public String findAllLogByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException, InterruptedException {
+        CountDownLatch _latch = new CountDownLatch(nodes.size());
         List<Log> logs = new ArrayList<Log>();
-
+        ThreadPoolExecutor pool = getThreadPoolUtil.getThreadPool();
+        int j=0;
+        MyTask3[] m = new MyTask3[nodes.size()+1];
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                PathUtil pathUtil= new PathUtil();
-                Node node = pathUtil.getPath(nodes.get(i));
-
-                Log log1 = logDao.findAllLogByDate(date1,node, node.getNodename1(), node.getPath1(), keyword,conn);
-                Log log2 = logDao.findAllLogByDate(date1,node, node.getNodename2(), node.getPath2(), keyword,conn);
-                conn.close();
-                System.out.println("连接已关闭");
-                logs.add(log1);
-                logs.add(log2);
+//                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+//                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+//                PathUtil pathUtil= new PathUtil();
+//                Node node = pathUtil.getPath(nodes.get(i));
+//
+//                Log log1 = logDao.findAllLogByDate(date1,node, node.getNodename1(), node.getPath1(), keyword,conn);
+//                Log log2 = logDao.findAllLogByDate(date1,node, node.getNodename2(), node.getPath2(), keyword,conn);
+//                conn.close();
+//                System.out.println("连接已关闭");
+//                logs.add(log1);
+//                logs.add(log2);
+                m[j]= new MyTask3(nodes.get(i),keyword,date1,_latch);
+                pool.execute(m[j]);
+                j++;
             }
         }
+        _latch.await();
+        for(int k = 0; k<=j; k++ ){
+            if(m[k] != null) {
+                logs.addAll(m[k].getLogs());
+            }
+        }
+        pool.shutdown();
         String jsonStr = JSON.toJSONString(logs);
         return jsonStr;
     }
 
-    public String findLogByNewByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException {
+    public String findLogByNewByDate(Date date1, List<Node> nodes, String keyword) throws ParseException, IOException, InterruptedException {
+        CountDownLatch _latch = new CountDownLatch(nodes.size());
         List<Log> logs = new ArrayList<Log>();
-
+        ThreadPoolExecutor pool = getThreadPoolUtil.getThreadPool();
+        int j=0;
+        MyTask5[] m = new MyTask5[nodes.size()+1];
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                PathUtil pathUtil= new PathUtil();
-                Node node = pathUtil.getPath(nodes.get(i));
-                Log log1 = logDao.findLogByNewByDate(date1,node, node.getNodename1(), node.getPath1(), keyword,conn);
-                Log log2 = logDao.findLogByNewByDate(date1,node, node.getNodename2(), node.getPath2(), keyword,conn);
-                conn.close();
-                System.out.println("连接已关闭");
-                logs.add(log1);
-                logs.add(log2);
+//                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+//                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+//                PathUtil pathUtil= new PathUtil();
+//                Node node = pathUtil.getPath(nodes.get(i));
+//                Log log1 = logDao.findLogByNewByDate(date1,node, node.getNodename1(), node.getPath1(), keyword,conn);
+//                Log log2 = logDao.findLogByNewByDate(date1,node, node.getNodename2(), node.getPath2(), keyword,conn);
+//                conn.close();
+//                System.out.println("连接已关闭");
+//                logs.add(log1);
+//                logs.add(log2);
+                m[j]= new MyTask5(nodes.get(i),keyword,date1,_latch);
+                pool.execute(m[j]);
+                j++;
             }
         }
+        _latch.await();
+        for(int k = 0; k<=j; k++ ){
+            if(m[k] != null) {
+                logs.addAll(m[k].getLogs());
+            }
+        }
+        pool.shutdown();
         String jsonStr = JSON.toJSONString(logs);
         return jsonStr;
     }
 
 
-    public String findLogByNewByDate(Date date1, Date date2, List<Node> nodes, String keyword) throws ParseException, IOException {
+    public String findLogByNewByDate(Date date1, Date date2, List<Node> nodes, String keyword) throws ParseException, IOException, InterruptedException {
+        CountDownLatch _latch = new CountDownLatch(nodes.size());
         List<Log> logs = new ArrayList<Log>();
-
+        ThreadPoolExecutor pool = getThreadPoolUtil.getThreadPool();
+        int j=0;
+        MyTask4[] m = new MyTask4[nodes.size()+1];
         for(int i=0; i < nodes.size(); i++){
             if(nodes.get(i) !=null) {
-                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
-                PathUtil pathUtil= new PathUtil();
-                Node node = pathUtil.getPath(nodes.get(i));
-                List<Log> log1 = logDao.findLogByNewByDate(date1,date2,node, node.getNodename1(), node.getPath1(), keyword,conn);
-                List<Log> log2 = logDao.findLogByNewByDate(date1,date2,node, node.getNodename2(), node.getPath2(), keyword,conn);
-                conn.close();
-                System.out.println("连接已关闭");
-
-                logs.addAll(log1);
-                logs.addAll(log2);
+//                NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
+//                Connection conn = nodeConnectUtil.getConnection(nodes.get(i));
+//                PathUtil pathUtil= new PathUtil();
+//                Node node = pathUtil.getPath(nodes.get(i));
+//                List<Log> log1 = logDao.findLogByNewByDate(date1,date2,node, node.getNodename1(), node.getPath1(), keyword,conn);
+//                List<Log> log2 = logDao.findLogByNewByDate(date1,date2,node, node.getNodename2(), node.getPath2(), keyword,conn);
+//                conn.close();
+//                System.out.println("连接已关闭");
+//
+//                logs.addAll(log1);
+//                logs.addAll(log2);
+                m[j]= new MyTask4(nodes.get(i),keyword,date1,date2,_latch);
+                pool.execute(m[j]);
+                j++;
             }
         }
+        _latch.await();
+        for(int k = 0; k<=j; k++ ){
+            if(m[k] != null) {
+                logs.addAll(m[k].getLogs());
+            }
+        }
+        pool.shutdown();
+
         String jsonStr = JSON.toJSONString(logs);
         return jsonStr;
     }

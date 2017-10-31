@@ -1,4 +1,6 @@
-package com.ehome.sourch.logTest;
+package com.ehome.sourch.utils;
+
+import com.ehome.sourch.Task.MyTask1;
 
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -11,7 +13,7 @@ public class MyRejected implements RejectedExecutionHandler {
 
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
 
-        MyTask task = (MyTask) r;
+        MyTask1 task = (MyTask1) r;
 
         System.out.println("报警信息："+task.getClass()+" 被线程池拒绝，没有被执行");
 

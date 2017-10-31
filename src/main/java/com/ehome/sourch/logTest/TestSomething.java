@@ -34,9 +34,9 @@ public class TestSomething {
 //        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
 //
 //        Connection conn = nodeConnectUtil.getConnection(node);
-        CountDownLatch _latch = new CountDownLatch(nodes.size());
-        String date1 = "2017-07-10";
-        String date2 = "2017-07-12";
+
+        String date1 = "2017-07-11";
+        String date2 = "2017-10-12";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         Date dat1 = df.parse(date1);
@@ -44,11 +44,11 @@ public class TestSomething {
 
         String nodename = "Node_A";
         int line = 15442;
-//       List<Log> logs = logService.findAllLog(nodes,keyword);//测试查找新生成的日志文件并且查
-//        log = logDao.findLogByNewByDate(dat1,node,nodename,keyword,conn);//测试按照指定日期查找的日志文件并取出最新的一行日志
-           String logString =  logService.findLogByNew(nodes,keyword,_latch);//测试最新生成的日志文件并且取出最新的一行日志
-//        log = logDao.findLogByLine(file,nodename,line,conn);
-//        List<Log> logs = logDao.findLogByNewByDate(dat1,dat2,node,nodename,keyword);
+//        String logString = logService.findAllLog(nodes,keyword,_latch);//测试查找新生成的日志文件并且查
+//         String logString = logService.findLogByNewByDate(dat1,nodes,keyword);//测试按照指定日期查找的日志文件并取出最新的一行日志
+           String logString =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
+//        String logString = logService.findAllLogByDate(dat1,nodes,keyword,_latch);
+//          String logString = logService.findLogByNewByDate(dat1,dat2,nodes,keyword);
 //        Map<Integer,String> map = new HashMap<Integer, String>();
 //        map = log.getMessages();
 //        for (Map.Entry<Integer, String> entry : map.entrySet()) {
@@ -57,22 +57,21 @@ public class TestSomething {
 
 
 //        List<Log> logs = new ArrayList<Log>();
-        _latch.await();
-        System.out.println(logString);
         Thread.sleep(1000);
         List<Log> logs = JSON.parseArray(logString, Log.class);
         Map<Integer,String> map = new HashMap<Integer, String>();
         Iterator it = logs.iterator();
         while(it.hasNext()){
             log = (Log) it.next();
-            map = log.getMessages();
             Node node = log.getNode();
-            for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + log.getNodename() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
+            if(log.getMessages()!=null) {
+                map = log.getMessages();
+                for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                    System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + log.getNodename() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
 
-                System.out.println("| Line: " + entry.getKey() + " | message: " + entry.getValue());
+                    System.out.println("| Line: " + entry.getKey() + " | message: " + entry.getValue());
+                }
             }
-
         }
 //
 

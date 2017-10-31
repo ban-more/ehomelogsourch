@@ -31,15 +31,23 @@ public class LogDaoImpl{
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
         String file = getNeedFileUtil.getNeeedFileName(node,path,conn);
+        Log log = new Log();
+        if (file!=null) {
+            FindLogUtil findLogUtil = new FindLogUtil();
 
-        FindLogUtil findLogUtil = new FindLogUtil();
+            log = findLogUtil.getAllLogs(file, keyword, conn);
 
-        Log log = findLogUtil.getAllLogs(file, keyword,conn);
+            log.setNode(node);
+            log.setNodename(nodename);
 
-        log.setNode(node);
-        log.setNodename(nodename);
+        }else{
+            log.setNode(node);
+            log.setNodename(nodename);
+            log.setFilename("This server does not have qualified file!!");
+            log.setMessages(null);
+
+        }
         return log;
-
     }
 
     /**
@@ -55,12 +63,22 @@ public class LogDaoImpl{
 
         String  file = getNeedFileUtil.getNeeedFileName(node,path,conn);
 
-        FindLogUtil findLogUtil = new FindLogUtil();
+        Log log = new Log();
+        if (file!=null) {
+            FindLogUtil findLogUtil = new FindLogUtil();
 
-        Log log = findLogUtil.getLogByNew(file, keyword,conn);
+            log = findLogUtil.getLogByNew(file, keyword,conn);
 
-        log.setNode(node);
-        log.setNodename(nodename);
+            log.setNode(node);
+            log.setNodename(nodename);
+
+        }else{
+            log.setNode(node);
+            log.setNodename(nodename);
+            log.setFilename("This server does not have qualified file!!");
+            log.setMessages(null);
+
+        }
         return log;
     }
 
@@ -79,12 +97,22 @@ public class LogDaoImpl{
 
         String  file = getNeedFileUtil.getNeeedFileName(date1,node,path,conn);
 
-        FindLogUtil findLogUtil = new FindLogUtil();
+        Log log = new Log();
+        if (file!=null) {
+            FindLogUtil findLogUtil = new FindLogUtil();
 
-        Log log = findLogUtil.getAllLogs(file, keyword,conn);
+            log = findLogUtil.getAllLogs(file, keyword, conn);
 
-        log.setNode(node);
-        log.setNodename(nodename);
+            log.setNode(node);
+            log.setNodename(nodename);
+
+        }else{
+            log.setNode(node);
+            log.setNodename(nodename);
+            log.setFilename("This server does not have qualified file!!");
+            log.setMessages(null);
+
+        }
         return log;
     }
     /**
@@ -102,12 +130,18 @@ public class LogDaoImpl{
 
         String  file = getNeedFileUtil.getNeeedFileName(date1,node,path,conn);
 
-        FindLogUtil findLogUtil = new FindLogUtil();
-
-        Log log = findLogUtil.getLogByNew(file, keyword,conn);
-
-        log.setNode(node);
-        log.setNodename(nodename);
+        Log log = new Log();
+        if ( file != null) {
+            FindLogUtil findLogUtil = new FindLogUtil();
+            log = findLogUtil.getLogByNew(file, keyword,conn);
+            log.setNode(node);
+            log.setNodename(nodename);
+        }else{
+            log.setNode(node);
+            log.setNodename(nodename);
+            log.setFilename("This server does not have qualified file!!");
+            log.setMessages(null);
+        }
         return log;
     }
 
@@ -136,6 +170,13 @@ public class LogDaoImpl{
                 log.setNodename(nodename);
                 logs.add(log);
                 System.out.println(files[i]);
+            }else{
+                Log log = new Log();
+                log.setNode(node);
+                log.setNodename(nodename);
+                log.setFilename("This server does not have qualified file!!");
+                log.setMessages(null);
+                logs.add(log);
             }
         }
 
@@ -145,12 +186,20 @@ public class LogDaoImpl{
     public Log findLogByLine(Node node, String nodename,String keyword, String file, int line,Connection conn) throws IOException {
 
 
-        FindLogUtil findLogUtil = new FindLogUtil();
+        Log log = new Log();
+        if (file!=null) {
+            FindLogUtil findLogUtil = new FindLogUtil();
 
-        Log log = findLogUtil.getLogByLine(file, line,conn);
-        log.setKeyword(keyword);
-        log.setNode(node);
-        log.setNodename(nodename);
+            log = findLogUtil.getLogByLine(file, line,conn);
+            log.setKeyword(keyword);
+            log.setNode(node);
+            log.setNodename(nodename);
+        }else{
+            log.setNode(node);
+            log.setNodename(nodename);
+            log.setFilename("This server does not have qualified file!!");
+            log.setMessages(null);
+        }
         return log;
     }
 }
