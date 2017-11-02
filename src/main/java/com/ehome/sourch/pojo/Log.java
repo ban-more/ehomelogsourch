@@ -34,19 +34,21 @@ public class Log {
         return filename;
     }
 
+    public Map<Long, String> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Map<Long, String> messages) {
+        this.messages = messages;
+    }
+
     public void setFilename(String filename) {
         this.filename = filename;
     }
 
-    private Map<Integer,String> messages;
+    private Map<Long,String> messages;
 
-    public Map<Integer, String> getMessages() {
-        return messages;
-    }
 
-    public void setMessages(Map<Integer, String> messages) {
-        this.messages = messages;
-    }
 
 
     public String getKeyword() {

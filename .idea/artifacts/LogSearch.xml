@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="LogSearch">
+    <output-path>$PROJECT_DIR$/classes/artifacts/LogSearch</output-path>
+    <root id="archive" name="LogSearch.jar">
+      <element id="module-output" name="ehomelogsourch" />
+      <element id="library" level="project" name="Maven: ch.ethz.ganymed:ganymed-ssh2:262" />
+      <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.38" />
+    </root>
+  </artifact>
+</component>

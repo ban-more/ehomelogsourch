@@ -36,25 +36,18 @@ public class FindLogUtil {
         try {
 
             ssh = conn.openSession();
-            ssh.execCommand("cat " + file);
+            ssh.execCommand("grep -n '"+keyword+"' "+ file);
             InputStream stdout = new StreamGobbler(ssh.getStdout());
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
-            Map<Integer,String> map = new HashMap<Integer, String>();
-            int linenum = 1;
-            int i = 0;
+            Map<Long,String> map = new HashMap<Long, String>();
             String readLine = null;
 
             while ((readLine = br.readLine()) != null) {
                 //判断关键字
-
-                if (readLine.indexOf(keyword) != -1) {
-                    i++;
-                    map.put(linenum, readLine);
-
-                }
-                linenum++;
+                String[] str = readLine.split(":",2);
+                map.put(Long.valueOf(str[0]), str[1]);
             }
             log.setFilename(file);
             log.setMessages(map);
@@ -80,29 +73,24 @@ public class FindLogUtil {
     public Log getLogByNew(String file, String keyword,Connection conn){
         Session ssh = null;
         Log log = new Log();
-
-            GetFileLineUtil getFileLineUtil = new GetFileLineUtil();
-            String line = getFileLineUtil.getFileLine(file,conn);
             try {
                 ssh = conn.openSession();
-                ssh.execCommand("cat " + file);
+                ssh.execCommand("grep -n '"+keyword+"' "+ file);
                 InputStream stdout = new StreamGobbler(ssh.getStdout());
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
-                Map<Integer,String> map = new HashMap<Integer, String>();
-                int linenum = Integer.valueOf(line);
-                int flag = 0;
+                Map<Long,String> map = new HashMap<Long, String>();
+                Long linenum = Long.valueOf(1);
+                Long flag = Long.valueOf(0);
                 String readline = null;
                 String nearline = null;
-
-                while(linenum > 0){
-                    readline = br.readLine(linenum);
-                    if (readline.indexOf(keyword) != -1) {
-                        nearline = readline;
-                        flag = linenum;
-                    }
-                    linenum--;
+                while ((readline = br.readLine()) != null) {
+                    //判断行数
+                    String[] str = readline.split(":",2);
+                        nearline = str[1];
+                        flag = Long.valueOf(str[0]);
+                    linenum++;
                 }
                 map.put(flag, nearline);
                 log.setFilename(file);
@@ -112,25 +100,7 @@ public class FindLogUtil {
                 e.printStackTrace();
             }
 
-
-
-//            int flag = 0;
-//
-//            String readLine = null;
-//            String nearline = null;
-//
-//            while ((readLine = br.readLine()) != null) {
-//                //判断关键字
-//
-//                if (readLine.indexOf(keyword) != -1) {
-//                    nearline = readLine;
-//                    flag = linenum;
-//                }
-//                linenum++;
-//            }
-
-
-            ssh.close();
+        ssh.close();
 
         return log;
     }
@@ -153,9 +123,9 @@ public class FindLogUtil {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
-            Map<Integer,String> map = new HashMap<Integer, String>();
-            int linenum = line;
-            int i = 0;
+            Map<Long,String> map = new HashMap<Long, String>();
+            Long linenum = Long.valueOf(line);
+            Long i = Long.valueOf(0);
             String readLine = null;
 
             while ((readLine = br.readLine()) != null) {
@@ -180,36 +150,30 @@ public class FindLogUtil {
         return log;
     }
 
-    public Log getLogByDate(String file, String keyword, Date date1, Connection conn){
+    public Log getLogByDate(String file, String keyword, Date date, Connection conn){
         Session ssh = null;
         Log log = new Log();
-        DateFormat df = new SimpleDateFormat("yyyyMMdd");//将日期转换成字符串类型
-        String date = df.format(date1);
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");//将日期转换成字符串类型
+        DateFormat df2 = new SimpleDateFormat("yyyy-M-d");
+        String date1 = df1.format(date);
+        String date2 = df1.format(date);
         try {
 
             ssh = conn.openSession();
-            ssh.execCommand("cat " + file);
+            ssh.execCommand("grep -n '"+keyword+"' "+file+" | grep '"+date1+"\\|"+date2+"'");
             InputStream stdout = new StreamGobbler(ssh.getStdout());
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
-            Map<Integer,String> map = new HashMap<Integer, String>();
-            int linenum = 1;
-            int flag = 0;
-
+            Map<Long,String> map = new HashMap<Long, String>();
             String readLine = null;
             String nearline = null;
 
             while ((readLine = br.readLine()) != null) {
                 //判断关键字
-
-                if (readLine.indexOf(keyword) != -1&&readLine.indexOf(date) != -1) {
-                    nearline = readLine;
-                    flag = linenum;
-                }
-                linenum++;
+                String[] str = readLine.split(":",2);
+                map.put(Long.valueOf(str[0]), str[1]);
             }
-            map.put(flag, nearline);
             log.setFilename(file);
             log.setMessages(map);
             log.setKeyword(keyword);
@@ -221,6 +185,5 @@ public class FindLogUtil {
         }
         return log;
     }
-
 
 }

@@ -101,7 +101,7 @@ public class LogDaoImpl{
         if (file!=null) {
             FindLogUtil findLogUtil = new FindLogUtil();
 
-            log = findLogUtil.getAllLogs(file, keyword, conn);
+            log = findLogUtil.getLogByDate(file, keyword,date1, conn);
 
             log.setNode(node);
             log.setNodename(nodename);

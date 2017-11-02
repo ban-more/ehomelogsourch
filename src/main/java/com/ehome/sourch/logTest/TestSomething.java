@@ -59,14 +59,14 @@ public class TestSomething {
 //        List<Log> logs = new ArrayList<Log>();
         Thread.sleep(1000);
         List<Log> logs = JSON.parseArray(logString, Log.class);
-        Map<Integer,String> map = new HashMap<Integer, String>();
+        Map<Long,String> map = new HashMap<Long, String>();
         Iterator it = logs.iterator();
         while(it.hasNext()){
             log = (Log) it.next();
             Node node = log.getNode();
             if(log.getMessages()!=null) {
                 map = log.getMessages();
-                for (Map.Entry<Integer, String> entry : map.entrySet()) {
+                for (Map.Entry<Long, String> entry : map.entrySet()) {
                     System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + log.getNodename() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
 
                     System.out.println("| Line: " + entry.getKey() + " | message: " + entry.getValue());
