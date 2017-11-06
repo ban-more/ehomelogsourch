@@ -1,5 +1,6 @@
 package com.ehome.sourch.pojo;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,15 @@ public class Log {
     private String filename;
     private Node node;
     private String nodename;
+    private LinkedHashMap<Long,String> messages;
+
+    public LinkedHashMap<Long, String> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(LinkedHashMap<Long, String> messages) {
+        this.messages = messages;
+    }
 
     public String getNodename() {
         return nodename;
@@ -34,22 +44,9 @@ public class Log {
         return filename;
     }
 
-    public Map<Long, String> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(Map<Long, String> messages) {
-        this.messages = messages;
-    }
-
     public void setFilename(String filename) {
         this.filename = filename;
     }
-
-    private Map<Long,String> messages;
-
-
-
 
     public String getKeyword() {
         return keyword;

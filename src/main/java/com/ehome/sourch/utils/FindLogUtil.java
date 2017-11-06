@@ -12,10 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 获取日志文件中包含关键字的日志
@@ -41,7 +38,7 @@ public class FindLogUtil {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
-            Map<Long,String> map = new HashMap<Long, String>();
+            LinkedHashMap<Long,String> map = new LinkedHashMap<Long, String>();
             String readLine = null;
 
             while ((readLine = br.readLine()) != null) {
@@ -80,7 +77,7 @@ public class FindLogUtil {
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
-                Map<Long,String> map = new HashMap<Long, String>();
+                LinkedHashMap<Long,String> map = new LinkedHashMap<Long, String>();
                 Long linenum = Long.valueOf(1);
                 Long flag = Long.valueOf(0);
                 String readline = null;
@@ -111,27 +108,25 @@ public class FindLogUtil {
      * @param file
      * @return
      */
-    public Log getLogByLine(String file,int line,Connection conn){
+    public Log getLogByLine(String file,Long line,Connection conn){
 
         Session ssh = null;
         Log log = new Log();
-
         try {
             ssh = conn.openSession();
-            ssh.execCommand("cat " + file + " | tail -n +" + line +" | head -n 100");
+            Long endline =line+50;
+            line = line - 50;
+            ssh.execCommand("sed -n '"+line+","+endline+"p' "+file);
             InputStream stdout = new StreamGobbler(ssh.getStdout());
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
-            Map<Long,String> map = new HashMap<Long, String>();
+            LinkedHashMap<Long,String> map = new LinkedHashMap<Long,String>();
             Long linenum = Long.valueOf(line);
-            Long i = Long.valueOf(0);
             String readLine = null;
 
             while ((readLine = br.readLine()) != null) {
                 //判断关键字
-
-                    i++;
                     map.put(linenum, readLine);
 
                 linenum++;
@@ -139,17 +134,21 @@ public class FindLogUtil {
             log.setFilename(file);
             log.setMessages(map);
             ssh.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-//            SCPClient client = new SCPClient(conn);
-//            client.get("/usr/local/", localTargetDirectory);
-
 
         return log;
     }
 
+    /**
+     * 按日期查找日志
+     * @param file
+     * @param keyword
+     * @param date
+     * @param conn
+     * @return
+     */
     public Log getLogByDate(String file, String keyword, Date date, Connection conn){
         Session ssh = null;
         Log log = new Log();
@@ -165,7 +164,7 @@ public class FindLogUtil {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
-            Map<Long,String> map = new HashMap<Long, String>();
+            LinkedHashMap<Long,String> map = new LinkedHashMap<Long, String>();
             String readLine = null;
             String nearline = null;
 

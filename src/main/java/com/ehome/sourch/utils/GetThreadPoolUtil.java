@@ -5,6 +5,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 定义线程池
+ */
 public class GetThreadPoolUtil {
 
     public ThreadPoolExecutor getThreadPool(){

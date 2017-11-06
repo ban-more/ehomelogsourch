@@ -111,6 +111,15 @@ public class GetNeedFileUtil {
 
     }
 
+    /**
+     * 查找在某个时间段内生成的日志文件
+     * @param date1
+     * @param date2
+     * @param node
+     * @param path
+     * @param conn
+     * @return
+     */
     public String[] getNeeedFileName(Date date1,Date date2,Node node,String path,Connection conn) {//date1至date2之间的文件名
         getAllFileUtil = new GetAllFileUtil(path);
 

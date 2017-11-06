@@ -205,16 +205,22 @@ public class LogServiceImpl{
         return jsonStr;
     }
 
-    public String findLogByLine(Node node,String nodename,String keyword, String file, int line) throws IOException {
+    public String findLogByLine(Node node,String nodename,String keyword, String file, Long line) throws IOException {
 
         NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
         Connection conn = nodeConnectUtil.getConnection(node);
-        Log log = logDao.findLogByLine(node, nodename,keyword,file,line,conn);
-        conn.close();
-        System.out.println("连接已关闭");
+        Log log = new Log();
+        if(conn != null) {
+            log = logDao.findLogByLine(node, nodename, keyword, file, line, conn);
+            conn.close();
+            System.out.println("连接已关闭");
+
+        }else{
+            log.setNode(node);
+            log.setKeyword("服务器链接异常请及时查看服务器情况！！！");
+        }
         String jsonStr = JSON.toJSONString(log);
         return jsonStr;
-
     }
 
 

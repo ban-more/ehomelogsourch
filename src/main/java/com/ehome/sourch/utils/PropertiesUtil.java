@@ -3,6 +3,9 @@ package com.ehome.sourch.utils;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * 读取配置文件工具类
+ */
 public class PropertiesUtil {
     static Properties property = new Properties();
     public static boolean loadFile(String fileName){

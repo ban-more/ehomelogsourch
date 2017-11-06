@@ -5,6 +5,9 @@ import com.ehome.sourch.Task.MyTask1;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * 定义当线程被拒绝时的处理类
+ */
 public class MyRejected implements RejectedExecutionHandler {
 
 

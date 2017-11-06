@@ -10,9 +10,7 @@ import com.ehome.sourch.utils.PathUtil;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 日志伪Dao层
@@ -183,18 +181,19 @@ public class LogDaoImpl{
         return logs;
     }
 
-    public Log findLogByLine(Node node, String nodename,String keyword, String file, int line,Connection conn) throws IOException {
+    public Log findLogByLine(Node node, String nodename,String keyword, String file, Long line,Connection conn) throws IOException {
 
 
         Log log = new Log();
         if (file!=null) {
             FindLogUtil findLogUtil = new FindLogUtil();
+            log = findLogUtil.getLogByLine(file,line,conn);
 
-            log = findLogUtil.getLogByLine(file, line,conn);
             log.setKeyword(keyword);
             log.setNode(node);
             log.setNodename(nodename);
         }else{
+
             log.setNode(node);
             log.setNodename(nodename);
             log.setFilename("This server does not have qualified file!!");
