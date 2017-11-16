@@ -1,0 +1,7 @@
+servernum=1
+ip1=192.168.221.128
+port1=22
+username1=root
+password1=wang1509
+nodename1-1=srv1
+nodename1-2=srv2

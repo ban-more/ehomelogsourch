@@ -15,6 +15,9 @@ import java.util.Date;
 public class GetNeedFileUtil {
 
     private GetAllFileUtil getAllFileUtil;
+
+
+
     /**
      * 得到最近的日志文件名
      * @return

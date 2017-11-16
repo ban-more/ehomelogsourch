@@ -49,7 +49,7 @@ public class TestSomething {
 //           String logString =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
 //            String logString = logService.findAllLogByDate(dat1,nodes,keyword);
 //          String logString = logService.findLogByNewByDate(dat1,dat2,nodes,keyword);
-         log = logService.findLogByLine(nodes.get(0),nodes.get(0).getNodename1(),keyword,file,line);
+        String logString = logService.findLogByLine(nodes.get(0),nodes.get(0).getNodename1(),keyword,file,line);
 //        Map<Integer,String> map = new HashMap<Integer, String>();
 //        map = log.getMessages();
 //        for (Map.Entry<Integer, String> entry : map.entrySet()) {
@@ -68,21 +68,21 @@ public class TestSomething {
 //            }
 //        List<Log> logs = new ArrayList<Log>();
 //        Thread.sleep(1000);
-//        List<Log> logs = JSON.parseArray(logString, Log.class);
-//        Map<Long,String> map = new HashMap<Long, String>();
-//        Iterator it = logs.iterator();
-//        while(it.hasNext()){
-//            log = (Log) it.next();
-//            Node node = log.getNode();
-//            if(log.getMessages()!=null) {
-//                map = log.getMessages();
-//                for (Map.Entry<Long, String> entry : map.entrySet()) {
-//                    System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + log.getNodename() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
-//
-//                    System.out.println("| Line: " + entry.getKey() + " | message: " + entry.getValue());
-//                }
-//            }
-//        }
+        List<Log> logs = JSON.parseArray(logString, Log.class);
+        Map<Long,String> map = new HashMap<Long, String>();
+        Iterator it = logs.iterator();
+        while(it.hasNext()){
+            log = (Log) it.next();
+            Node node = log.getNode();
+            if(log.getMessages()!=null) {
+                map = log.getMessages();
+                for (Map.Entry<Long, String> entry : map.entrySet()) {
+                    System.out.println("| IP:" + node.getIp() + " | Port:" + node.getPort() + " | NodeName:" + log.getNodename() + " | KeyWord:" + log.getKeyword() + " | fileName:" + log.getFilename());
+
+                    System.out.println("| Line: " + entry.getKey() + " | message: " + entry.getValue());
+                }
+            }
+        }
 //
 
 

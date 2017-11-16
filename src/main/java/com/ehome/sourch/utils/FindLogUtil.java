@@ -115,7 +115,11 @@ public class FindLogUtil {
         try {
             ssh = conn.openSession();
             Long endline =line+50;
-            line = line - 50;
+            if(line > 100) {
+                line = line - 50;
+            }else{
+                line = Long.valueOf(1);
+            }
             ssh.execCommand("sed -n '"+line+","+endline+"p' "+file);
             InputStream stdout = new StreamGobbler(ssh.getStdout());
 
