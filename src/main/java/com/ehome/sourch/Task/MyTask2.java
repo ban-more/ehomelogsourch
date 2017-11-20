@@ -42,16 +42,12 @@ public class MyTask2 implements Runnable {
             if(conn != null) {
                 PathUtil pathUtil = new PathUtil();
                 Node node1 = pathUtil.getPath(node);
+                List<Log> logs1 = logDao.findAllLog(node1, keyword, conn);
 
-                Log log1 = logDao.findAllLog(node1, node1.getNodename1(), node1.getPath1(), keyword, conn);
-                Log log2 = logDao.findAllLog(node1, node1.getNodename2(), node1.getPath2(), keyword, conn);
                 conn.close();
                 System.out.println("连接已关闭");
-                if (log1 != null) {
-                    logs.add(log1);
-                }
-                if (log2 != null) {
-                    logs.add(log2);
+                if (logs1 != null) {
+                    logs.addAll(logs1);
                 }
             }else{
                 logs = new ArrayList<Log>();

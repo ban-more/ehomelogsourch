@@ -43,26 +43,23 @@ public class MyTask5 implements Runnable {
                 logs = new ArrayList<Log>();
                 NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
                 Connection conn = nodeConnectUtil.getConnection(node);
-                if(conn != null) {
-                    PathUtil pathUtil = new PathUtil();
-                    Node node1 = pathUtil.getPath(node);
-                    Log log1 = logDao.findLogByNewByDate(date1, node1, node1.getNodename1(), node1.getPath1(), keyword, conn);
-                    Log log2 = logDao.findLogByNewByDate(date1, node1, node1.getNodename2(), node1.getPath2(), keyword, conn);
-                    conn.close();
-                    System.out.println("连接已关闭");
-                    if (log1 != null) {
-                        logs.add(log1);
-                    }
-                    if (log2 != null) {
-                        logs.add(log2);
-                    }
-                }else{
-                    logs = new ArrayList<Log>();
-                    Log log3 = new Log();
-                    log3.setNode(node);
-                    log3.setKeyword("服务器链接异常请及时查看服务器情况！！！");
-                    logs.add(log3);
+            if(conn != null) {
+                PathUtil pathUtil = new PathUtil();
+                Node node1 = pathUtil.getPath(node);
+                List<Log> logs1 = logDao.findLogByNewByDate(date1, node1, keyword, conn);;
+
+                conn.close();
+                System.out.println("连接已关闭");
+                if (logs1 != null) {
+                    logs.addAll(logs1);
                 }
+            }else{
+                logs = new ArrayList<Log>();
+                Log log3 = new Log();
+                log3.setNode(node);
+                log3.setKeyword("服务器链接异常请及时查看服务器情况！！！");
+                logs.add(log3);
+            }
 //                System.out.println(log1.getKeyword()+log1.getMessages());
 //                System.out.println(log2.getKeyword()+log2.getMessages());
                  _latch.countDown();

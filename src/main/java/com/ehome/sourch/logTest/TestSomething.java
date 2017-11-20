@@ -25,18 +25,19 @@ public class TestSomething {
         GetServerMessageUtil getServerMessageUtil = new GetServerMessageUtil();
         List<Node> nodes = getServerMessageUtil.getNodes();
 
-        String file = "/weblogic/log/Node_A/e-srv01-02_20170905_220551.out";
-        String keyword = "Error";
+        String file = "/weblogic/log/Node_A/e-srv06-02_20171115_034835.out";
+//        String keyword = "select * from";
+        String keyword = "error";
         LogServiceImpl logService = new LogServiceImpl();
 
         Log log = new Log();
 //            Long line = Long.valueOf(4929369);
-        Long line = Long.valueOf(110071);
+        Long line = Long.valueOf(5514955);
 //        NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
 //
 //        Connection conn = nodeConnectUtil.getConnection(node);
 
-        String date1 = "2017-09-06";
+        String date1 = "2017-09-22";
         String date2 = "2017-10-12";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -47,12 +48,12 @@ public class TestSomething {
 //        String logString = logService.findAllLog(nodes,keyword,_latch);//测试查找新生成的日志文件并且查
 //         String logString = logService.findLogByNewByDate(dat1,nodes,keyword);//测试按照指定日期查找的日志文件并取出最新的一行日志
 //           String logString =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
-//            String logString = logService.findAllLogByDate(dat1,nodes,keyword);
+            String logString = logService.findAllLogByDate(dat1,nodes,keyword);
 //          String logString = logService.findLogByNewByDate(dat1,dat2,nodes,keyword);
-        String logString = logService.findLogByLine(nodes.get(0),nodes.get(0).getNodename1(),keyword,file,line);
-//        Map<Integer,String> map = new HashMap<Integer, String>();
+//        String logString = logService.findLogByLine(nodes.get(0),nodes.get(0).getNodename1(),keyword,file,line);
+//        Map<Long,String> map = new HashMap<Long, String>();
 //        map = log.getMessages();
-//        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+//        for (Map.Entry<Long, String> entry : map.entrySet()) {
 //            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
 //        }
 //          log =JSON.parseObject(logString,Log.class);

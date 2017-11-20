@@ -24,28 +24,36 @@ public class LogDaoImpl{
      * @param keyword
      * @return
      */
-    public Log findAllLog(Node node,String nodename,String path, String keyword,Connection conn) throws IOException {
+    public List<Log> findAllLog(Node node, String keyword,Connection conn) throws IOException {
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
+        String[] filename = getNeedFileUtil.getNeeedFileName(node,conn);
 
-        String file = getNeedFileUtil.getNeeedFileName(node,path,conn);
-        Log log = new Log();
-        if (file!=null) {
-            FindLogUtil findLogUtil = new FindLogUtil();
-
-            log = findLogUtil.getAllLogs(file, keyword, conn);
-
-            log.setNode(node);
-            log.setNodename(nodename);
-
-        }else{
-            log.setNode(node);
-            log.setNodename(nodename);
-            log.setFilename("This server does not have qualified file!!");
-            log.setMessages(null);
-
+        Log log1 = new Log();
+        List<Log> logs = new ArrayList<Log>();
+        for(int i = 0 ; i<filename.length ; i++) {
+            if (filename[i] != null) {
+                FindLogUtil findLogUtil = new FindLogUtil();
+                log1 = findLogUtil.getAllLogs(filename[i], keyword, conn);
+                log1.setNode(node);
+                if(filename[i].indexOf("-01_") != -1) {
+                    log1.setNodename("srv01");
+                }else if(filename[i].indexOf("-02_") != -1){
+                    log1.setNodename("srv02");
+                }
+            } else {
+                log1.setNode(node);
+                if(filename[i].indexOf("-01_") != -1) {
+                    log1.setNodename("srv01");
+                }else if(filename[i].indexOf("-02_") != -1){
+                    log1.setNodename("srv02");
+                }
+                log1.setFilename("This server does not have qualified file!!");
+                log1.setMessages(null);
+            }
+            logs.add(log1);
         }
-        return log;
+        return logs;
     }
 
     /**
@@ -54,30 +62,38 @@ public class LogDaoImpl{
      * @param keyword
      * @return
      */
-    public Log findLogByNew(Node node,String nodename,String path, String keyword,Connection conn) throws IOException {
+    public List<Log> findLogByNew(Node node, String keyword,Connection conn) throws IOException {
 
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String  file = getNeedFileUtil.getNeeedFileName(node,path,conn);
-
-        Log log = new Log();
-        if (file!=null) {
-            FindLogUtil findLogUtil = new FindLogUtil();
-
-            log = findLogUtil.getLogByNew(file, keyword,conn);
-
-            log.setNode(node);
-            log.setNodename(nodename);
-
-        }else{
-            log.setNode(node);
-            log.setNodename(nodename);
-            log.setFilename("This server does not have qualified file!!");
-            log.setMessages(null);
-
+        String[] filename = getNeedFileUtil.getNeeedFileName(node,conn);
+        FindLogUtil findLogUtil = new FindLogUtil();
+        Log log1 = new Log();
+        List<Log> logs = new ArrayList<Log>();
+        for(int i = 0 ; i<filename.length ; i++) {
+            if (filename[i] != null) {
+                System.out.println("开始从文件中取日志！！");
+                log1 = findLogUtil.getLogByNew(filename[i], keyword, conn);
+                log1.setNode(node);
+                if(filename[i].indexOf("-01_") != -1) {
+                    log1.setNodename("srv01");
+                }else if(filename[i].indexOf("-02_") != -1){
+                    log1.setNodename("srv02");
+                }
+            } else {
+                log1.setNode(node);
+                if(filename[i].indexOf("-01_") != -1) {
+                    log1.setNodename("srv01");
+                }else if(filename[i].indexOf("-02_") != -1){
+                    log1.setNodename("srv02");
+                }
+                log1.setFilename("This server does not have qualified file!!");
+                log1.setMessages(null);
+            }
+            logs.add(log1);
         }
-        return log;
+        return logs;
     }
 
     /**
@@ -88,30 +104,45 @@ public class LogDaoImpl{
      * @return
      * @throws ParseException
      */
-    public Log findAllLogByDate(Date date1, Node node,String nodename,String path, String keyword,Connection conn) throws ParseException, IOException {
+    public List<Log> findAllLogByDate(Date date1, Node node, String keyword,Connection conn) throws ParseException, IOException {
 
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String  file = getNeedFileUtil.getNeeedFileName(date1,node,path,conn);
+        String[] filename = getNeedFileUtil.getNeeedFileName(date1,node,conn);
 
-        Log log = new Log();
-        if (file!=null) {
-            FindLogUtil findLogUtil = new FindLogUtil();
-
-            log = findLogUtil.getLogByDate(file, keyword,date1, conn);
-
-            log.setNode(node);
-            log.setNodename(nodename);
-
-        }else{
-            log.setNode(node);
-            log.setNodename(nodename);
-            log.setFilename("This server does not have qualified file!!");
-            log.setMessages(null);
-
+        Log log1 = new Log();
+        List<Log> logs = new ArrayList<Log>();
+        if(filename == null){
+            log1.setNode(node);
+            log1.setFilename("This server does not have qualified file!!");
+            log1.setMessages(null);
+            logs.add(log1);
+            return logs;
         }
-        return log;
+        for(int i = 0 ; i<filename.length ; i++) {
+            if (filename[i] != null) {
+                FindLogUtil findLogUtil = new FindLogUtil();
+                log1 = findLogUtil.getLogByDate(filename[i], keyword,date1,conn);
+                log1.setNode(node);
+                if(filename[i].indexOf("-01_") != -1) {
+                    log1.setNodename("srv01");
+                }else if(filename[i].indexOf("-02_") != -1){
+                    log1.setNodename("srv02");
+                }
+            } else {
+                log1.setNode(node);
+                if(filename[i].indexOf("-01_") != -1) {
+                    log1.setNodename("srv01");
+                }else if(filename[i].indexOf("-02_") != -1){
+                    log1.setNodename("srv02");
+                }
+                log1.setFilename("This server does not have qualified file!!");
+                log1.setMessages(null);
+            }
+            logs.add(log1);
+        }
+        return logs;
     }
     /**
      * 按照指定日期查找的日志文件并取出最新的一行日志
@@ -121,26 +152,37 @@ public class LogDaoImpl{
      * @return
      * @throws ParseException
      */
-    public Log findLogByNewByDate(Date date1, Node node,String nodename,String path, String keyword,Connection conn) throws ParseException, IOException {
-
+    public List<Log> findLogByNewByDate(Date date1, Node node, String keyword,Connection conn) throws ParseException, IOException {
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String  file = getNeedFileUtil.getNeeedFileName(date1,node,path,conn);
+        String[] filename = getNeedFileUtil.getNeeedFileName(date1,node,conn);
 
-        Log log = new Log();
-        if ( file != null) {
-            FindLogUtil findLogUtil = new FindLogUtil();
-            log = findLogUtil.getLogByNew(file, keyword,conn);
-            log.setNode(node);
-            log.setNodename(nodename);
-        }else{
-            log.setNode(node);
-            log.setNodename(nodename);
-            log.setFilename("This server does not have qualified file!!");
-            log.setMessages(null);
+        Log log1 = new Log();
+        List<Log> logs = new ArrayList<Log>();
+        for(int i = 0 ; i<filename.length ; i++) {
+            if (filename[i] != null) {
+                FindLogUtil findLogUtil = new FindLogUtil();
+                log1 = findLogUtil.getLogByNew(filename[i], keyword,conn);
+                log1.setNode(node);
+                if(filename[i].indexOf("-01_") != -1) {
+                    log1.setNodename("srv01");
+                }else if(filename[i].indexOf("-02_") != -1){
+                    log1.setNodename("srv02");
+                }
+            } else {
+                log1.setNode(node);
+                if(filename[i].indexOf("-01_") != -1) {
+                    log1.setNodename("srv01");
+                }else if(filename[i].indexOf("-02_") != -1){
+                    log1.setNodename("srv02");
+                }
+                log1.setFilename("This server does not have qualified file!!");
+                log1.setMessages(null);
+            }
+            logs.add(log1);
         }
-        return log;
+        return logs;
     }
 
     /**

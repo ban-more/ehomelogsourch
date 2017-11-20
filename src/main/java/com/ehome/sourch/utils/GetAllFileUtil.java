@@ -13,13 +13,7 @@ import java.io.*;
  */
 public class GetAllFileUtil {
 
-    private String path;
-    public GetAllFileUtil(String path){
-        this.path =path;
-    }
-    private NodeConnectUtil nodeConnectUtil = new NodeConnectUtil();
-
-    public  String[] getFile(Connection conn) {
+    public  String[] getFile(String path, Connection conn) {
             Session ssh = null;
         String[] filenames = new String[30];
         //获取链接
@@ -71,7 +65,7 @@ public class GetAllFileUtil {
 
         return filenames;
     }
-    public String[] getfilename(Connection conn){
+    public String[] getfilename(String path,Connection conn){
         Session ssh = null;
         String[] filenames = new String[30];
         //获取链接

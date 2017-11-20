@@ -33,7 +33,20 @@ public class FindLogUtil {
         try {
 
             ssh = conn.openSession();
-            ssh.execCommand("grep -n '"+keyword+"' "+ file);
+            if(keyword.indexOf(" * ") != -1) {
+                String[] kd = keyword.split("\\*");
+                String keyword1 = kd[0]+"*";
+                String keyword2 = "*"+kd[1];
+                System.out.println("开始执行命令令！！！");
+                ssh.execCommand("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"'");
+                System.out.println("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"'");
+                System.out.println("执行命令令完毕！！！");
+            } else{
+                System.out.println("开始执行命令令！！！");
+                ssh.execCommand("grep -n '" + keyword + "' " + file);
+                System.out.println("grep -n '" + keyword + "' " + file);
+                System.out.println("执行命令令完毕！！！");
+            }
             InputStream stdout = new StreamGobbler(ssh.getStdout());
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
@@ -67,28 +80,44 @@ public class FindLogUtil {
      * @param keyword
      * @return
      */
-    public Log getLogByNew(String file, String keyword,Connection conn){
+    public Log getLogByNew(String file, String keyword,Connection conn) throws IOException {
         Session ssh = null;
         Log log = new Log();
             try {
                 ssh = conn.openSession();
-                ssh.execCommand("grep -n '"+keyword+"' "+ file);
+                if(keyword.indexOf(" * ") != -1) {
+                    String[] kd = keyword.split("\\*");
+                    String keyword1 = kd[0]+"*";
+                    String keyword2 = "*"+kd[1];
+                    System.out.println("开始执行命令令！！！");
+                    ssh.execCommand("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"' | tail -n 1");
+                    System.out.println("grep '"+keyword1+"' "+file+" | grep -n '"+keyword2+"' | tail -n 1");
+                    System.out.println("执行命令令完毕！！！");
+                } else{
+                    ssh.execCommand("grep -n '" + keyword + "' " + file + " | tail -n 1");
+                }
                 InputStream stdout = new StreamGobbler(ssh.getStdout());
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
 
                 LinkedHashMap<Long,String> map = new LinkedHashMap<Long, String>();
-                Long linenum = Long.valueOf(1);
+//                Long linenum = Long.valueOf(1);
                 Long flag = Long.valueOf(0);
                 String readline = null;
                 String nearline = null;
-                while ((readline = br.readLine()) != null) {
-                    //判断行数
-                    String[] str = readline.split(":",2);
-                        nearline = str[1];
-                        flag = Long.valueOf(str[0]);
-                    linenum++;
-                }
+//                while ((readline = br.readLine()) != null) {
+//                    //判断行数
+//                        String[] str = readline.split(":", 2);
+//                        nearline = str[1];
+//                        flag = Long.valueOf(str[0]);
+//                        ff = false;
+//                    linenum++;
+//                }
+                   if((readline = br.readLine()) != null) {
+                       String[] str = readline.split(":", 2);
+                       nearline = str[1];
+                       flag = Long.valueOf(str[0]);
+                   }
                 map.put(flag, nearline);
                 log.setFilename(file);
                 log.setMessages(map);
@@ -163,7 +192,21 @@ public class FindLogUtil {
         try {
 
             ssh = conn.openSession();
-            ssh.execCommand("grep -n '"+keyword+"' "+file+" | grep '"+date1+"\\|"+date2+"'");
+            if(keyword.indexOf(" * ") != -1) {
+                String[] kd = keyword.split("\\*");
+                String keyword1 = kd[0]+"*";
+                String keyword2 = "*"+kd[1];
+                System.out.println("开始执行命令令！！！");
+                ssh.execCommand("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"' | grep '"+date1+"\\|"+date2+"'");
+                System.out.println("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"' | grep '"+date1+"\\|"+date2+"'");
+                System.out.println("执行命令令完毕！！！");
+            } else{
+                System.out.println("开始执行命令令！！！");
+                ssh.execCommand("grep -n '"+keyword+"' "+file+" | grep '"+date1+"\\|"+date2+"'");
+                System.out.println("grep -n '"+keyword+"' "+file+" | grep '"+date1+"\\|"+date2+"'");
+                System.out.println("执行命令令完毕！！！");
+            }
+
             InputStream stdout = new StreamGobbler(ssh.getStdout());
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
