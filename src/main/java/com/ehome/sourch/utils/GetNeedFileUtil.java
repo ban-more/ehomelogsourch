@@ -52,13 +52,17 @@ public class GetNeedFileUtil {
                 String[] strs2 = filename[3].split(".out");
                 strs = filename[2] + strs2[0];
                 if("01".equals(strs1[2])) {
+                    System.out.println("find srv01 node message!!!!");
                     if (j == 0) {
+                        str1 = filenames[i];
+                        System.out.println("The j is zeor!!!! "+str1);
                         st1 = strs;
                         j++;
                     }
                     if (j > 0) {
                         if (Long.valueOf(st1) < Long.valueOf(strs)) {
                             str1 = filenames[i];
+                            System.out.println(str1);
                             st1 = strs;
                             j++;
                         }
@@ -66,13 +70,17 @@ public class GetNeedFileUtil {
                     }
                 }
                 if("02".equals(strs1[2])) {
+                    System.out.println("find srv02 node message!!!!");
                     if (k == 0) {
+                        str2 = filenames[i];
+                        System.out.println("The k is zeor!!!! "+str2);
                         st2 = strs;
                         k++;
                     }
                     if (k > 0) {
                         if (Long.valueOf(st2) < Long.valueOf(strs)) {
                             str2 = filenames[i];
+                            System.out.println(str2);
                             st2 = strs;
                             k++;
                         }
@@ -90,20 +98,16 @@ public class GetNeedFileUtil {
                 return filename;
             }else{
                 filename[0] = str1;
-                filename[1] = null;
                 System.out.println("节点1日志文件为："+str1+"节点2没有发现日志文件！");
                 return filename;
             }
         }else{
             if(str2 != null) {
-                filename[0] = null;
-                filename[1] = str2;
-                System.out.println("节点1没有发现日志文件！"+"节点二日志文件为："+str2);
+                filename[0] = str2;
+                System.out.println("节点1没有发现日志文件！"+"节点2日志文件为："+str2);
                 return filename;
             }else{
-                filename[0] = null;
-                filename[1] = null;
-                System.out.println("节点2没有发现日志文件！"+"节点2没有发现日志文件！");
+                System.out.println("节点1没有发现日志文件！"+"节点2没有发现日志文件！");
                 return filename;
             }
         }
@@ -149,13 +153,11 @@ public class GetNeedFileUtil {
                         if (flag1) {
                             s = strs;
                             str1 = filenames[i];
-                            System.out.println("进入比较");
                             flag1 = false;
                         }
                         if (Long.valueOf(s) < Long.valueOf(strs)) {
                             str1 = filenames[i];
                             s = strs;
-                            System.out.println("进入比较");
                         }
                     }
                 }
@@ -169,8 +171,6 @@ public class GetNeedFileUtil {
                             str2 = filenames[i];
                             flag2 = false;
                         }
-                        System.out.println(s);
-                        System.out.println(strs);
                         if (Long.valueOf(s) < Long.valueOf(strs)) {
                             str2 = filenames[i];
                             s = strs;

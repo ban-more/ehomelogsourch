@@ -72,6 +72,8 @@ public class MyTask4 implements Runnable {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
     }

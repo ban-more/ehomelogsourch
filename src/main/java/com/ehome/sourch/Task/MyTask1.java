@@ -60,6 +60,8 @@ public class MyTask1 implements Runnable {
                 _latch.countDown();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
     }

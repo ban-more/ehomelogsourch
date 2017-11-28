@@ -31,6 +31,13 @@ public class LogDaoImpl{
 
         Log log1 = new Log();
         List<Log> logs = new ArrayList<Log>();
+        if(filename == null){
+            log1.setNode(node);
+            log1.setFilename("This server does not have qualified file!!");
+            log1.setMessages(null);
+            logs.add(log1);
+            return logs;
+        }
         for(int i = 0 ; i<filename.length ; i++) {
             if (filename[i] != null) {
                 FindLogUtil findLogUtil = new FindLogUtil();
@@ -62,7 +69,7 @@ public class LogDaoImpl{
      * @param keyword
      * @return
      */
-    public List<Log> findLogByNew(Node node, String keyword,Connection conn) throws IOException {
+    public List<Log> findLogByNew(Node node, String keyword,Connection conn) throws IOException, InterruptedException {
 
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
@@ -71,14 +78,21 @@ public class LogDaoImpl{
         FindLogUtil findLogUtil = new FindLogUtil();
         Log log1 = new Log();
         List<Log> logs = new ArrayList<Log>();
+        if(filename == null){
+            log1.setNode(node);
+            log1.setFilename("This server does not have qualified file!!");
+            log1.setMessages(null);
+            logs.add(log1);
+            return logs;
+        }
         for(int i = 0 ; i<filename.length ; i++) {
             if (filename[i] != null) {
                 System.out.println("开始从文件中取日志！！");
                 log1 = findLogUtil.getLogByNew(filename[i], keyword, conn);
                 log1.setNode(node);
-                if(filename[i].indexOf("-01_") != -1) {
+                if (filename[i].indexOf("-01_") != -1) {
                     log1.setNodename("srv01");
-                }else if(filename[i].indexOf("-02_") != -1){
+                } else if (filename[i].indexOf("-02_") != -1) {
                     log1.setNodename("srv02");
                 }
             } else {
@@ -123,23 +137,24 @@ public class LogDaoImpl{
         for(int i = 0 ; i<filename.length ; i++) {
             if (filename[i] != null) {
                 FindLogUtil findLogUtil = new FindLogUtil();
-                log1 = findLogUtil.getLogByDate(filename[i], keyword,date1,conn);
+                log1 = findLogUtil.getLogByDate(filename[i], keyword, date1, conn);
                 log1.setNode(node);
-                if(filename[i].indexOf("-01_") != -1) {
+                if (filename[i].indexOf("-01_") != -1) {
                     log1.setNodename("srv01");
-                }else if(filename[i].indexOf("-02_") != -1){
+                } else if (filename[i].indexOf("-02_") != -1) {
                     log1.setNodename("srv02");
                 }
-            } else {
-                log1.setNode(node);
-                if(filename[i].indexOf("-01_") != -1) {
-                    log1.setNodename("srv01");
-                }else if(filename[i].indexOf("-02_") != -1){
-                    log1.setNodename("srv02");
-                }
-                log1.setFilename("This server does not have qualified file!!");
-                log1.setMessages(null);
             }
+//            } else {
+//                log1.setNode(node);
+//                if(filename[i].indexOf("-01_") != -1) {
+//                    log1.setNodename("srv01");
+//                }else if(filename[i].indexOf("-02_") != -1){
+//                    log1.setNodename("srv02");
+//                }
+//                log1.setFilename("This server does not have qualified file!!");
+//                log1.setMessages(null);
+//            }
             logs.add(log1);
         }
         return logs;
@@ -152,7 +167,7 @@ public class LogDaoImpl{
      * @return
      * @throws ParseException
      */
-    public List<Log> findLogByNewByDate(Date date1, Node node, String keyword,Connection conn) throws ParseException, IOException {
+    public List<Log> findLogByNewByDate(Date date1, Node node, String keyword,Connection conn) throws ParseException, IOException, InterruptedException {
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
@@ -160,26 +175,34 @@ public class LogDaoImpl{
 
         Log log1 = new Log();
         List<Log> logs = new ArrayList<Log>();
+        if(filename == null){
+            log1.setNode(node);
+            log1.setFilename("This server does not have qualified file!!");
+            log1.setMessages(null);
+            logs.add(log1);
+            return logs;
+        }
         for(int i = 0 ; i<filename.length ; i++) {
             if (filename[i] != null) {
                 FindLogUtil findLogUtil = new FindLogUtil();
-                log1 = findLogUtil.getLogByNew(filename[i], keyword,conn);
+                log1 = findLogUtil.getLogByNew(filename[i], keyword, conn);
                 log1.setNode(node);
-                if(filename[i].indexOf("-01_") != -1) {
+                if (filename[i].indexOf("-01_") != -1) {
                     log1.setNodename("srv01");
-                }else if(filename[i].indexOf("-02_") != -1){
+                } else if (filename[i].indexOf("-02_") != -1) {
                     log1.setNodename("srv02");
                 }
-            } else {
-                log1.setNode(node);
-                if(filename[i].indexOf("-01_") != -1) {
-                    log1.setNodename("srv01");
-                }else if(filename[i].indexOf("-02_") != -1){
-                    log1.setNodename("srv02");
-                }
-                log1.setFilename("This server does not have qualified file!!");
-                log1.setMessages(null);
             }
+//            } else {
+//                log1.setNode(node);
+//                if(filename[i].indexOf("-01_") != -1) {
+//                    log1.setNodename("srv01");
+//                }else if(filename[i].indexOf("-02_") != -1){
+//                    log1.setNodename("srv02");
+//                }
+//                log1.setFilename("This server does not have qualified file!!");
+//                log1.setMessages(null);
+//            }
             logs.add(log1);
         }
         return logs;
@@ -194,7 +217,7 @@ public class LogDaoImpl{
      * @return
      * @throws ParseException
      */
-    public List<Log> findLogByNewByDate(Date date1, Date date2, Node node,String nodename,String path, String keyword,Connection conn) throws ParseException, IOException {
+    public List<Log> findLogByNewByDate(Date date1, Date date2, Node node,String nodename,String path, String keyword,Connection conn) throws ParseException, IOException, InterruptedException {
 
         List<Log> logs = new ArrayList<Log>();
 

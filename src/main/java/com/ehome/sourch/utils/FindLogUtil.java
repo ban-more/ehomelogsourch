@@ -4,8 +4,6 @@ import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
 import com.ehome.sourch.pojo.Log;
-import com.ehome.sourch.pojo.Node;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,12 +36,12 @@ public class FindLogUtil {
                 String keyword1 = kd[0]+"*";
                 String keyword2 = "*"+kd[1];
                 System.out.println("开始执行命令令！！！");
-                ssh.execCommand("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"'");
+                ssh.execCommand("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"'","GBK");
                 System.out.println("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"'");
                 System.out.println("执行命令令完毕！！！");
             } else{
                 System.out.println("开始执行命令令！！！");
-                ssh.execCommand("grep -n '" + keyword + "' " + file);
+                ssh.execCommand("grep -n '" + keyword + "' " + file,"GBK");
                 System.out.println("grep -n '" + keyword + "' " + file);
                 System.out.println("执行命令令完毕！！！");
             }
@@ -80,7 +78,7 @@ public class FindLogUtil {
      * @param keyword
      * @return
      */
-    public Log getLogByNew(String file, String keyword,Connection conn) throws IOException {
+    public Log getLogByNew(String file, String keyword,Connection conn) throws IOException, InterruptedException {
         Session ssh = null;
         Log log = new Log();
             try {
@@ -94,7 +92,11 @@ public class FindLogUtil {
                     System.out.println("grep '"+keyword1+"' "+file+" | grep -n '"+keyword2+"' | tail -n 1");
                     System.out.println("执行命令令完毕！！！");
                 } else{
-                    ssh.execCommand("grep -n '" + keyword + "' " + file + " | tail -n 1");
+                    System.out.println("开始执行命令令！！！");
+                    String cmd ="grep -n '" + keyword + "' " + file + " | tail -n 1";
+                    ssh.execCommand(cmd,"GBK");
+                    System.out.println("grep -n '" + keyword + "' " + file + " | tail -n 1");
+                    System.out.println("执行命令令完毕！！！");
                 }
                 InputStream stdout = new StreamGobbler(ssh.getStdout());
 
@@ -118,6 +120,11 @@ public class FindLogUtil {
                        nearline = str[1];
                        flag = Long.valueOf(str[0]);
                    }
+                if((readline = br.readLine()) != null) {
+                    String[] str = readline.split(":", 2);
+                    nearline = str[1];
+                    flag = Long.valueOf(str[0]);
+                }
                 map.put(flag, nearline);
                 log.setFilename(file);
                 log.setMessages(map);
@@ -149,7 +156,7 @@ public class FindLogUtil {
             }else{
                 line = Long.valueOf(1);
             }
-            ssh.execCommand("sed -n '"+line+","+endline+"p' "+file);
+            ssh.execCommand("sed -n '"+line+","+endline+"p' "+file,"GBK");
             InputStream stdout = new StreamGobbler(ssh.getStdout());
 
             BufferedReader br = new BufferedReader(new InputStreamReader(stdout,"GBK"));
@@ -197,12 +204,12 @@ public class FindLogUtil {
                 String keyword1 = kd[0]+"*";
                 String keyword2 = "*"+kd[1];
                 System.out.println("开始执行命令令！！！");
-                ssh.execCommand("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"' | grep '"+date1+"\\|"+date2+"'");
+                ssh.execCommand("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"' | grep '"+date1+"\\|"+date2+"'","GBK");
                 System.out.println("grep -n '"+keyword1+"' "+file+" | grep '"+keyword2+"' | grep '"+date1+"\\|"+date2+"'");
                 System.out.println("执行命令令完毕！！！");
             } else{
                 System.out.println("开始执行命令令！！！");
-                ssh.execCommand("grep -n '"+keyword+"' "+file+" | grep '"+date1+"\\|"+date2+"'");
+                ssh.execCommand("grep -n '"+keyword+"' "+file+" | grep '"+date1+"\\|"+date2+"'","GBK");
                 System.out.println("grep -n '"+keyword+"' "+file+" | grep '"+date1+"\\|"+date2+"'");
                 System.out.println("执行命令令完毕！！！");
             }

@@ -1,13 +1,17 @@
 package com.ehome.sourch.logTest;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 public class Test4 {
-    public static void main(String [] args) throws ParseException {
+    public static void main(String [] args) throws ParseException, UnsupportedEncodingException {
 //        String p = "2017-11-03 13:49:10";
 //        DateFormat df1 = new SimpleDateFormat("yyyy-M-d");//将日期转换成字符串类型
 //        Date date = df1.parse(p);
@@ -39,9 +43,26 @@ public class Test4 {
 //            System.out.println(keyword2);
 //            System.out.println(kd.length);
 //        }
-        String name = "66:asadfsadfsdgsdfafdsdfsadfsad";
-        String[] n1 = name.split(":",2);
-        System.out.println(n1[0]);
-        System.out.println(n1[1]);
+//        String name = "66:asadfsadfsdgsdfafdsdfsadfsad";
+//        String[] n1 = name.split(":",2);
+//        System.out.println(n1[0]);
+//        System.out.println(n1[1]);
+//        String cmd ="mkdir /weblogic/log/Node_A/王时撒打算分手大师的v.txt";
+//        cmd = new String( cmd.getBytes("GBK") , "UTF-8");
+//        System.out.println(cmd);
+        String str = "测试字符转换 hello word"; //默认环境，已是UTF-8编码
+        try {
+            String strGBK = URLEncoder.encode(str, "GBK");
+            System.out.println(strGBK);
+            String strUTF8 = URLDecoder.decode(str, "UTF-8");
+            System.out.println(strUTF8);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+//        String s = "王";
+//        System.out.println(s);
+//        byte[] b = s.getBytes("GBK");
+//        String n = new String(b,"UTF-8");
+//        System.out.println(n);
 
     }}

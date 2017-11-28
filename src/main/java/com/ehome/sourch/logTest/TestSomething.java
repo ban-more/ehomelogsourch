@@ -26,8 +26,8 @@ public class TestSomething {
         List<Node> nodes = getServerMessageUtil.getNodes();
 
         String file = "/weblogic/log/Node_A/e-srv06-02_20171115_034835.out";
-//        String keyword = "select * from";
-        String keyword = "error";
+//        String keyword = "失败";
+        String keyword = "投保单号";
         LogServiceImpl logService = new LogServiceImpl();
 
         Log log = new Log();
@@ -47,8 +47,8 @@ public class TestSomething {
         String nodename = "Node_A";
 //        String logString = logService.findAllLog(nodes,keyword,_latch);//测试查找新生成的日志文件并且查
 //         String logString = logService.findLogByNewByDate(dat1,nodes,keyword);//测试按照指定日期查找的日志文件并取出最新的一行日志
-//           String logString =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
-            String logString = logService.findAllLogByDate(dat1,nodes,keyword);
+           String logString =  logService.findLogByNew(nodes,keyword);//测试最新生成的日志文件并且取出最新的一行日志
+//            String logString = logService.findAllLogByDate(dat1,nodes,keyword);
 //          String logString = logService.findLogByNewByDate(dat1,dat2,nodes,keyword);
 //        String logString = logService.findLogByLine(nodes.get(0),nodes.get(0).getNodename1(),keyword,file,line);
 //        Map<Long,String> map = new HashMap<Long, String>();
