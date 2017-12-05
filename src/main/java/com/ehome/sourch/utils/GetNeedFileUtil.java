@@ -3,6 +3,7 @@ package com.ehome.sourch.utils;
 import ch.ethz.ssh2.Connection;
 import com.ehome.sourch.pojo.Node;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,14 +31,22 @@ public class GetNeedFileUtil {
      * 得到最近的日志文件名
      * @return
      */
-    public String[] getNeeedFileName(Node node,Connection conn){//取出最近的日志文件名
+    public String[] getNeeedFileName(Node node,Connection conn) throws IOException {//取出最近的日志文件名
         getAllFileUtil = new GetAllFileUtil();
         String[] filenames = getAllFileUtil.getFile(node.getPath1(),conn);//获取指定目录下的所有文件
         String[] filenames2 = getAllFileUtil.getFile(node.getPath2(),conn);
-        int f = filenames.length;
-        int f2 = filenames2.length;
-        filenames = Arrays.copyOf(filenames,filenames.length+filenames2.length);
-        System.arraycopy(filenames2, 0, filenames, f, f2);
+        if(filenames != null){
+            if(filenames2 != null){
+                int f = filenames.length;
+                int f2 = filenames2.length;
+                filenames = Arrays.copyOf(filenames,filenames.length+filenames2.length);
+                System.arraycopy(filenames2, 0, filenames, f, f2);
+            }
+        }else{
+            if(filenames2 != null){
+                filenames = filenames2;
+            }
+        }
         String strs = null;//取每个文件名中的日期
         String str1 = null;
         String str2 = null;//取日期最大的文件名
@@ -66,7 +75,6 @@ public class GetNeedFileUtil {
                             st1 = strs;
                             j++;
                         }
-
                     }
                 }
                 if("02".equals(strs1[2])) {
@@ -108,7 +116,7 @@ public class GetNeedFileUtil {
                 return filename;
             }else{
                 System.out.println("节点1没有发现日志文件！"+"节点2没有发现日志文件！");
-                return filename;
+                return null;
             }
         }
     }
@@ -119,16 +127,24 @@ public class GetNeedFileUtil {
      * @param node
      * @return
      */
-    public String[] getNeeedFileName(Date date1, Node node, Connection conn) throws ParseException {//取出指定日期的文件名
+    public String[] getNeeedFileName(Date date1, Node node, Connection conn) throws ParseException, IOException {//取出指定日期的文件名
         getAllFileUtil = new GetAllFileUtil();
 
         String[] filenames = getAllFileUtil.getFile(node.getPath1(),conn);//获取指定目录下的所有文件
         String[] filenames2 = getAllFileUtil.getFile(node.getPath2(),conn);
-        int f = filenames.length;
-        int f2 = filenames2.length;
-        filenames = Arrays.copyOf(filenames,filenames.length+filenames2.length);
-        System.arraycopy(filenames2, 0, filenames, f, f2);
-        String strs = null;//取每个文件名中的日期//取每个文件名中的日期
+        if(filenames != null){
+            if(filenames2 != null){
+                int f = filenames.length;
+                int f2 = filenames2.length;
+                filenames = Arrays.copyOf(filenames,filenames.length+filenames2.length);
+                System.arraycopy(filenames2, 0, filenames, f, f2);
+            }
+        }else{
+            if(filenames2 != null){
+                filenames = filenames2;
+            }
+        }
+        String strs = null;//取每个文件名中的日期//取每个文件名中的  日期
         DateFormat df = new SimpleDateFormat("yyyyMMdd");//将日期转换成字符串类型
         String date = df.format(date1);
         String[] st1 = null;//盛放符合条件日期的文件名
@@ -226,7 +242,7 @@ public class GetNeedFileUtil {
                     return st1;
                 } else{
                     System.out.println("节点1没有发现日志文件！"+"节点2没有发现日志文件！");
-                    return st1;
+                    return null;
                 }
             }
         }
@@ -244,7 +260,7 @@ public class GetNeedFileUtil {
      * @param conn
      * @return
      */
-    public String[] getNeeedFileName(Date date1,Date date2,Node node,String path,Connection conn) {//date1至date2之间的文件名
+    public String[] getNeeedFileName(Date date1,Date date2,Node node,String path,Connection conn) throws IOException {//date1至date2之间的文件名
         getAllFileUtil = new GetAllFileUtil();
 
         String[] filenames = getAllFileUtil.getFile(path,conn);//获取指定目录下的所有文件

@@ -74,18 +74,18 @@ public class LogDaoImpl{
 
         GetNeedFileUtil getNeedFileUtil = new GetNeedFileUtil();
 
-        String[] filename = getNeedFileUtil.getNeeedFileName(node,conn);
+        String[] filename = getNeedFileUtil.getNeeedFileName(node, conn);
         FindLogUtil findLogUtil = new FindLogUtil();
         Log log1 = new Log();
         List<Log> logs = new ArrayList<Log>();
-        if(filename == null){
+        if (filename == null) {
             log1.setNode(node);
             log1.setFilename("This server does not have qualified file!!");
             log1.setMessages(null);
             logs.add(log1);
             return logs;
         }
-        for(int i = 0 ; i<filename.length ; i++) {
+        for (int i = 0; i < filename.length; i++) {
             if (filename[i] != null) {
                 System.out.println("开始从文件中取日志！！");
                 log1 = findLogUtil.getLogByNew(filename[i], keyword, conn);
@@ -95,17 +95,19 @@ public class LogDaoImpl{
                 } else if (filename[i].indexOf("-02_") != -1) {
                     log1.setNodename("srv02");
                 }
-            } else {
-                log1.setNode(node);
-                if(filename[i].indexOf("-01_") != -1) {
-                    log1.setNodename("srv01");
-                }else if(filename[i].indexOf("-02_") != -1){
-                    log1.setNodename("srv02");
-                }
-                log1.setFilename("This server does not have qualified file!!");
-                log1.setMessages(null);
+                logs.add(log1);
             }
-            logs.add(log1);
+//            } else {
+//                log1.setNode(node);
+//                if(filename[i].indexOf("-01_") != -1) {
+//                    log1.setNodename("srv01");
+//                }else if(filename[i].indexOf("-02_") != -1){
+//                    log1.setNodename("srv02");
+//                }
+//                log1.setFilename("This server does not have qualified file!!");
+//                log1.setMessages(null);
+//            }
+
         }
         return logs;
     }
@@ -143,6 +145,7 @@ public class LogDaoImpl{
                     log1.setNodename("srv01");
                 } else if (filename[i].indexOf("-02_") != -1) {
                     log1.setNodename("srv02");
+                    logs.add(log1);
                 }
             }
 //            } else {
@@ -155,7 +158,6 @@ public class LogDaoImpl{
 //                log1.setFilename("This server does not have qualified file!!");
 //                log1.setMessages(null);
 //            }
-            logs.add(log1);
         }
         return logs;
     }
@@ -192,6 +194,7 @@ public class LogDaoImpl{
                 } else if (filename[i].indexOf("-02_") != -1) {
                     log1.setNodename("srv02");
                 }
+                logs.add(log1);
             }
 //            } else {
 //                log1.setNode(node);
@@ -203,7 +206,7 @@ public class LogDaoImpl{
 //                log1.setFilename("This server does not have qualified file!!");
 //                log1.setMessages(null);
 //            }
-            logs.add(log1);
+
         }
         return logs;
     }

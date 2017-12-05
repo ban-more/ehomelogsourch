@@ -104,9 +104,8 @@ public class FindLogUtil {
 
                 LinkedHashMap<Long,String> map = new LinkedHashMap<Long, String>();
 //                Long linenum = Long.valueOf(1);
-                Long flag = Long.valueOf(0);
+               Boolean flag = true;
                 String readline = null;
-                String nearline = null;
 //                while ((readline = br.readLine()) != null) {
 //                    //判断行数
 //                        String[] str = readline.split(":", 2);
@@ -115,20 +114,25 @@ public class FindLogUtil {
 //                        ff = false;
 //                    linenum++;
 //                }
-                   if((readline = br.readLine()) != null) {
-                       String[] str = readline.split(":", 2);
-                       nearline = str[1];
-                       flag = Long.valueOf(str[0]);
-                   }
+//                   if((readline = br.readLine()) != null) {
+//                       String[] str = readline.split(":", 2);
+//                       nearline = str[1];
+//                       flag = Long.valueOf(str[0]);
+//                   }
                 if((readline = br.readLine()) != null) {
                     String[] str = readline.split(":", 2);
-                    nearline = str[1];
-                    flag = Long.valueOf(str[0]);
+                    flag = false;
+                    map.put(Long.valueOf(str[0]), str[1]);
+                    log.setFilename(file);
+                    log.setMessages(map);
+                    log.setKeyword(keyword);
                 }
-                map.put(flag, nearline);
-                log.setFilename(file);
-                log.setMessages(map);
-                log.setKeyword(keyword);
+                if(flag){
+                    map.put(Long.valueOf(0), "not found log meaagae!!");
+                    log.setFilename(file);
+                    log.setMessages(map);
+                    log.setKeyword(keyword);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -164,7 +168,6 @@ public class FindLogUtil {
             LinkedHashMap<Long,String> map = new LinkedHashMap<Long,String>();
             Long linenum = Long.valueOf(line);
             String readLine = null;
-
             while ((readLine = br.readLine()) != null) {
                 //判断关键字
                     map.put(linenum, readLine);
@@ -221,11 +224,15 @@ public class FindLogUtil {
             LinkedHashMap<Long,String> map = new LinkedHashMap<Long, String>();
             String readLine = null;
             String nearline = null;
-
+            Boolean flag = true;
             while ((readLine = br.readLine()) != null) {
                 //判断关键字
                 String[] str = readLine.split(":",2);
                 map.put(Long.valueOf(str[0]), str[1]);
+                flag = false;
+            }
+            if(flag){
+                map.put(Long.valueOf(0),"not found log meaagae!!");
             }
             log.setFilename(file);
             log.setMessages(map);
